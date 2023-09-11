@@ -50,6 +50,7 @@ The following dependecies are used for this project. Feel free to experiment usi
    | MAP_BASEMAP_ATTRIB  | Bas map attribution text                                                                                                                   |
    | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"WebMapBox.accessToken"` constructor parameter in the `WebMapBox` class if this variable has no value. |
    | MAPBOX_STYLE_URL    | MapBox style URL (basemap style)                                                                                                           |
+   | GOOGLE_API_KEY      | Google Maps API key                                                                                                                        |
 
 ## Usage
 

@@ -11,32 +11,9 @@ body, html {
   position: relative;
   height: 80px;
   z-index: 9999;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
   background-color: #333333;
-}
-
-li {
-  float: right;
-  border-right: 1px solid #ffffff;
-}
-
-li a {
-  display: block;
   color: #ffffff;
-  text-decoration: none;
-  padding: 28px 16px;
-}
-
-li a:hover {
-  background-color: #111111;
-  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 /** Card */
