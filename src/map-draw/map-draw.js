@@ -93,6 +93,13 @@ class MapDraw extends WebMapBox {
         console.log(`radius: ${radius}`)
         console.log(`center: ${center}`)
         console.log(that.editableLayers)
+        /*
+        const turfOptions = { steps: 64, units: 'meters' }
+        const turfCircle = turf.circle(center, radius, turfOptions)
+        const turfCircleArea = new L.GeoJSON(turfCircle, {
+          color: 'red'
+        }).addTo(that.map)
+        */
       } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
       }
