@@ -8,7 +8,7 @@ class MapDraw extends WebMapBox {
   drawControl
 
   /**
-   * WebMapBox constructor parameters
+   * MapDraw constructor parameters
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) stylae URL.
    * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
