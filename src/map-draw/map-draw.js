@@ -4,8 +4,13 @@ import WebMapBox from '../map-mapbox/map-mapbox.js'
  * Sub class for rendering "editable" web maps with the Leaflet MapBox GL JS plugin.
  */
 class MapDraw extends WebMapBox {
-  editableLayers
-  drawControl
+  editableLayers = null
+  drawControl = null
+
+  static SHAPE_TYPES = {
+    CIRCLE: 'circle',
+    POLYGON: 'polygon'
+  }
 
   /**
    * MapDraw constructor parameters
@@ -24,16 +29,12 @@ class MapDraw extends WebMapBox {
 
     // Create a draw control
     this.initControl()
-
-    this.map.on(L.Draw.Event.CREATED, function (e) {
-      /* eslint-disable no-unused-vars */
-      const layer = e.layer
-      const type = e.layerType
-
-      console.log(e)
-    })
+    this.bindMapEvents()
   }
 
+  /**
+   * Initialises the Leaflet.Draw plugin drawing controls on the map.
+   */
   initControl () {
     // Create a draw control
     const options = {
@@ -64,6 +65,38 @@ class MapDraw extends WebMapBox {
 
     this.drawControl = new L.Control.Draw(options)
     this.map.addControl(this.drawControl)
+  }
+
+  /**
+   * Binds events to the web map
+   */
+  bindMapEvents () {
+    const that = this
+
+    this.map.on(L.Draw.Event.CREATED, function (e) {
+      const { layer, layerType: type } = e
+
+      if (type === MapDraw.SHAPE_TYPES.CIRCLE) {
+        console.log('is circle')
+
+        // Circle radius
+        const radius = layer.getRadius()
+
+        // Circle center
+        const center = [
+          layer.getLatLng()?.lng ?? 0,
+          layer.getLatLng()?.lat ?? 0
+        ]
+
+        that.editableLayers.addLayer(layer)
+
+        console.log(`radius: ${radius}`)
+        console.log(`center: ${center}`)
+        console.log(that.editableLayers)
+      } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
+        console.log('is polygon')
+      }
+    })
   }
 }
 
