@@ -1,6 +1,10 @@
 // LeafletJS
 import '../node_modules/leaflet/dist/leaflet.css'
 import 'leaflet'
+
+// MapBox
+import 'mapbox-gl/dist/mapbox-gl.css'
+import 'mapbox-gl'
 import 'mapbox-gl-leaflet'
 
 // Global
