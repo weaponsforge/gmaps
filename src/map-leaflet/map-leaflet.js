@@ -9,7 +9,7 @@ class WebMapLeaflet extends WebMap {
    * @typedef {Object} config
    * @param {String} config.baseMapUrl - Basemap URL.
    * @param {String} config.baseMapAttrib - Basemap attribution text.
-   * @param {String} config.maximumZoom - Maximum zoom.
+   * @param {String} config.maxZoom - Maximum map zoom.
    */
   constructor (config) {
     super(config)
@@ -17,15 +17,16 @@ class WebMapLeaflet extends WebMap {
     const {
       baseMapUrl,
       baseMapAttrib,
-      maximumZoom
+      maxZoom
     } = config
 
     const M_BASEMAP = baseMapUrl ?? process.env.MAP_BASEMAP_URL
     const M_BASEMAP_ATTRIB = baseMapAttrib ?? process.env.MAP_BASEMAP_ATTRIB
 
+    /* eslint-disable no-undef */
     L.tileLayer(M_BASEMAP, {
-        maxZoom: maximumZoom ?? 21,
-        attribution: M_BASEMAP_ATTRIB
+      maxZoom: maxZoom ?? 21,
+      attribution: M_BASEMAP_ATTRIB
     }).addTo(this.map)
   }
 }

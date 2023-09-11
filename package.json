@@ -6,12 +6,17 @@
   "scripts": {
     "start": "node server.js",
     "dev": "webpack-dev-server --open --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint": "eslint src --ignore-path .gitignore",
+    "lint:fix": "eslint --ignore-path .gitignore --fix src"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.6.0",
+    "eslint": "^8.49.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "html-webpack-plugin": "^5.5.0",
     "leaflet": "^1.9.4",
     "mapbox-gl": "^2.15.0",

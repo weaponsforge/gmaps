@@ -27,6 +27,8 @@ class Webmap {
     const mLat = lat ?? process.env.MAP_LAT
     const mLng = lng ?? process.env.MAP_LON
     const mZoom = zoom ?? process.env.MAP_ZOOM_INIT
+
+    /* eslint-disable no-undef */
     this.map = L.map(mapId).setView([mLat, mLng], mZoom)
   }
 }

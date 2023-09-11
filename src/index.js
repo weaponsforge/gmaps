@@ -17,9 +17,11 @@ import WebMapBox from './map-mapbox/map-mapbox'
 // App entry point
 
 // LeafletJS-MapBox web map (using mapbox plugin)
-new WebMapBox({
+const map = new WebMapBox({
   mapId: 'map',
-  baseMapUrl: 'mapbox://styles/mapbox/satellite-v9',
+  baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
 })
 
-console.log("App started.")
+export default map
+
+console.log('App started.')
