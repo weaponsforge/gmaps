@@ -18,13 +18,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       hash: true,
       title : 'Google Maps APIs',
-      template : './src/index.html'
+      template : './src/index.html',
+      author: process.env.GOOGLE_API_KEY
     }),
 
     // Environment variables
     new webpack.EnvironmentPlugin(['APP_NAME']),
     new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('MAP_')))),
-    new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('MAPBOX_'))))
+    new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('MAPBOX_')))),
+    new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('GOOGLE_'))))
   ],
 
   // Set node modules to use for various file types
@@ -40,6 +42,16 @@ module.exports = {
      }
     ]
   },
+
+  /*
+  externalsType: 'script',
+  externals: {
+    leafletdraw: [
+      'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js',
+      'global'
+    ]
+  },
+  */
 
   // Development server set-up - define static assets directory and paths
   devServer: {
