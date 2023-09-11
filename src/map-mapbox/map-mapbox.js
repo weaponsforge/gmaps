@@ -8,7 +8,7 @@ class WebMapBox extends WebMap {
    * WebMapBox constructor parameters
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
-   * @param {String} config.accessToken - MapBox access token.
+   * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
    * @param {String} config.maximumZoom - Maximum zoom.
    */
   constructor (config) {
