@@ -8,8 +8,8 @@ class WebMapBox extends WebMap {
    * WebMapBox constructor parameters
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
-   * @param {String} config.accessToken - MapBox access token.
-   * @param {String} config.maximumZoom - Maximum zoom.
+   * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
+   * @param {String} config.maxZoom - Maximum map zoom (0 - 24).
    */
   constructor (config) {
     super(config)
@@ -17,16 +17,18 @@ class WebMapBox extends WebMap {
     const {
       styleUrl,
       accessToken,
-      maximumZoom
+      maxZoom
     } = config
 
     const M_BASEMAP_STYLE = styleUrl ?? process.env.MAPBOX_STYLE_URL
     const M_ACCESS_TOKEN = accessToken ?? process.env.MAPBOX_ACCESS_TOKEN
 
+    /* eslint-disable no-undef */
     L.mapboxGL({
-        style: M_BASEMAP_STYLE, // Mapbox satellite style URL
-        accessToken: M_ACCESS_TOKEN // Replace with your Mapbox access token
-    }).addTo(this.map);
+      style: M_BASEMAP_STYLE, // Mapbox satellite style URL
+      accessToken: M_ACCESS_TOKEN, // Replace with your Mapbox access token,
+      maxZoom: maxZoom ?? 24
+    }).addTo(this.map)
   }
 }
 

@@ -39,17 +39,17 @@ The following dependecies are used for this project. Feel free to experiment usi
 
 3. Create a `.env` file from the `.env.example` file. Update the variables in the `.env` file as needed.
 
-   | Variable Name       | Desccription                     |
-   | ------------------- | -------------------------------- |
-   | APP_NAME            | Application name                 |
-   | MAP_LAT             | Latitude                         |
-   | MAP_LON             | Longitude                        |
-   | MAP_ZOOM_INIT       | Web map's initial zoom (0 - 21)  |
-   | MAP_ZOOM_MAX        | Web map's maximum zoom (0 - 21)  |
-   | MAP_BASEMAP_URL     | Base map URL                     |
-   | MAP_BASEMAP_ATTRIB  | Bas map attribution text         |
-   | MAPBOX_ACCESS_TOKEN | MapBox access token              |
-   | MAPBOX_STYLE_URL    | MapBox style URL (basemap style) |
+   | Variable Name       | Desccription                                                                                                                               |
+   | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+   | APP_NAME            | Application name                                                                                                                           |
+   | MAP_LAT             | Latitude                                                                                                                                   |
+   | MAP_LON             | Longitude                                                                                                                                  |
+   | MAP_ZOOM_INIT       | Web map's initial zoom (0 - 21)                                                                                                            |
+   | MAP_ZOOM_MAX        | Web map's maximum zoom (0 - 21)                                                                                                            |
+   | MAP_BASEMAP_URL     | Base map URL                                                                                                                               |
+   | MAP_BASEMAP_ATTRIB  | Bas map attribution text                                                                                                                   |
+   | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"WebMapBox.accessToken"` constructor parameter in the `WebMapBox` class if this variable has no value. |
+   | MAPBOX_STYLE_URL    | MapBox style URL (basemap style)                                                                                                           |
 
 ## Usage
 
