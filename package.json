@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "axios": "^1.5.0",
     "css-loader": "^6.6.0",
     "eslint": "^8.49.0",
     "eslint-config-standard": "^17.1.0",
