@@ -179,7 +179,14 @@ class MapDraw extends WebMapBox {
 
     const request = {
       location,
-      radius
+      radius: Math.round(radius),
+      locationBias: {
+        radius,
+        center: {
+          lat: location.lat,
+          lng: location.lng
+        }
+      }
     }
 
     const service = new google.maps.places.PlacesService(this.gmap)
