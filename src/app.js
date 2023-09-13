@@ -1,10 +1,29 @@
-import { GoogleMap } from './map-google'
+import {
+  GoogleMap,
+  GoogleMapLeaflet
+} from './map-google'
 
 const start = () => {
+  const center = {
+    lat: 47.242384,
+    lng: -122.463904
+  }
+
+  // Basic Google Map
   const map = new GoogleMap({
-    mapId: 'googlemap-basic'
+    mapId: 'googlemap-basic',
+    lat: center.lat,
+    lng: center.lng
   })
 
+  // Google Map satellite basemap inside a LeafletJS web map
+  const mapLeaflet = new GoogleMapLeaflet({
+    mapId: 'googlemap-leaflet',
+    lat: center.lat,
+    lng: center.lng
+  })
+
+  // Buttons
   const buttonBasic = document.getElementById('screenshot-basic')
 
   buttonBasic.addEventListener('click', (e) => {
@@ -13,7 +32,11 @@ const start = () => {
     map.screenshot()
   })
 
-  return map
+  return mapLeaflet
 }
 
+const initMap = () => {}
+
 window.gmap = start()
+
+export default initMap
