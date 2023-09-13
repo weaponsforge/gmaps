@@ -32,7 +32,7 @@ The following dependecies are used for this project. Feel free to experiment usi
 ## Installation
 
 1. Clone this repository.
-`https://github.com/weaponsforge/livereload-webpack.git`
+`https://github.com/weaponsforge/gmaps.git`
 
 2. Install dependencies.
 `npm install`
@@ -52,14 +52,25 @@ The following dependecies are used for this project. Feel free to experiment usi
    | MAPBOX_STYLE_URL    | MapBox style URL (basemap style)                                                                                                           |
    | GOOGLE_API_KEY      | Google Maps API key                                                                                                                        |
 
+4. Checkout a branch that tests specific Google Maps related items:
+   - **dev**<br>
+      - Full screen LeafletJS web map demo.
+      - `git checkout dev`
+   - **feature/weaponsforge-10**<br>
+      - Experiments in listing all home addresses inside a circle radius, Issue [#10](https://github.com/weaponsforge/gmaps/issues/10)
+      - `git checkout feature/weaponsforge-10`
+   - **feature/weaponsforge-11**<br>
+      - Experiments in capturing a screenshot from a 3D (tilted) Google Map, Issue [#11](https://github.com/weaponsforge/gmaps/issues/11)
+      - `git checkout feature/weaponsforge-11`
+
 ## Usage
 
 1. Run the localhost static website development environment.<br>
 `npm run dev`
 
-2.  Edit the existing static files from the **./src** directory and wait for live reload. Your updates will reflect on the web browser.
+1.  Edit the existing static files from the **./src** directory and wait for live reload. Your updates will reflect on the web browser.
 
-3. To include new static website files on live reload:
+2. To include new static website files on live reload:
 	- Stop the localhost **dev** server.
 	- Create new static (.js, .css) files inside the **./src** directory.
 		- Import the new **.js** and **.css** files in **./src/index.js**
@@ -69,10 +80,10 @@ The following dependecies are used for this project. Feel free to experiment usi
 	- Re-start the **dev** server.<br>
 `npm run dev`
 
-4. Build the project for production environment. Built static files are placed in the **/dist** directory.<br>
+1. Build the project for production environment. Built static files are placed in the **/dist** directory.<br>
 `npm run build`
 
-5. Run the production static website (does not use live reload).<br>
+1. Run the production static website (does not use live reload).<br>
 `npm run start`
 
 
