@@ -14,6 +14,7 @@ const start = () => {
     mapId: 'googlemap-basic',
     lat: center.lat,
     lng: center.lng
+    // allowUI: [GoogleMap.GOOGLE_MAP_CONTROLS.ROTATE]
   })
 
   // Google Map satellite basemap inside a LeafletJS web map

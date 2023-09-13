@@ -17,6 +17,15 @@ class GoogleMap {
     HYBRID: 'hybrid'
   }
 
+  static GOOGLE_MAP_CONTROLS = {
+    ZOOM: 'zoomControl',
+    MAPTYPE: 'mapType',
+    SCALE: 'scaleControl',
+    STREETVIEW: 'streetViewControl',
+    ROTATE: 'rotateControl',
+    FULLSCREEN: 'fullscreenControl'
+  }
+
   /**
    * GoogleMap constructor parameters.
    * Initializes and renders a Google Map on screen.
@@ -27,6 +36,10 @@ class GoogleMap {
    * @param {String} [config.lng] - (Optional) Longitude. Defaults to MAP_LON.
    * @param {Number} [config.zoom] - (Optional) Map zoom. Defaults to MAP_ZOOM_INIT.
    * @param {Number} [config.tilt] - (Optional) Map tilt. Defaults 0 (disabled).
+   * @param {String[]} config.allowUI
+   *    - If undefined (default), render all the default Google Map controls.
+   *    - Populate this with Google Map controls "GOOGLE_MAP_CONTROLS" that should render on screen, if you don't want to render everything:
+   *      ['zoomControl', 'mapTypeControl', 'scaleControl', 'streetViewControl', 'rotateControl', 'fullscreenControl']
    */
   constructor (config) {
     const {
@@ -35,7 +48,8 @@ class GoogleMap {
       lat,
       lng,
       zoom,
-      tilt = 0
+      tilt = 0,
+      allowUI = []
     } = config
 
     if (!mapId) {
@@ -54,15 +68,21 @@ class GoogleMap {
     // Set a center point
     const point = new google.maps.LatLng(mLat, mLng)
 
-    // Initialize a google map
-    this.gmap = new google.maps.Map(document.getElementById(mapId), {
+    const mapConfig = {
       center: point,
       mapTypeId: this.mapType,
       tilt,
-      zoom: parseInt(mZoom)
-      // disableDefaultUI: true,
-      // zoomControl: true
+      zoom: parseInt(mZoom),
+      disableDefaultUI: (allowUI.length >= 1)
+    }
+
+    // Display map controls
+    allowUI.forEach(control => {
+      mapConfig[control] = true
     })
+
+    // Initialize a google map
+    this.gmap = new google.maps.Map(document.getElementById(mapId), mapConfig)
   }
 
   /**
