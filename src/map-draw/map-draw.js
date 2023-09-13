@@ -20,6 +20,7 @@ class MapDraw extends WebMapBox {
   drawControl = null
   gmap
   gmapId
+  result
 
   static SHAPE_TYPES = {
     CIRCLE: 'circle',
@@ -195,6 +196,7 @@ class MapDraw extends WebMapBox {
 
   fetchCallback (results, status, pagination) {
     const that = this
+    that.result = results
 
     console.log('---fetch results', status)
     console.log('---pagination', pagination)
