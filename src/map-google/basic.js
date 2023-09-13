@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { screenshotCanvas } from './utils'
 
 /**
  * Base class for rendering web maps using the Google Maps API (directly).
@@ -135,6 +136,10 @@ class GoogleMap {
     } catch (err) {
       throw new Error(err.message)
     }
+  }
+
+  screenshotCanvas () {
+    screenshotCanvas(this.mapId)
   }
 }
 
