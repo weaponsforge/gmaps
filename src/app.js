@@ -5,7 +5,15 @@ const start = () => {
     mapId: 'googlemap-basic'
   })
 
+  const buttonBasic = document.getElementById('screenshot-basic')
+
+  buttonBasic.addEventListener('click', (e) => {
+    console.log('click me')
+    console.log(map)
+    map.screenshot()
+  })
+
   return map
 }
 
-start()
+window.gmap = start()

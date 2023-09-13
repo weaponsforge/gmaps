@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 /**
  * Base class for rendering web maps using the Google Maps API (directly).
  * Requires a properly-configured Google Maps API script via CDN or npm install.
@@ -6,6 +8,7 @@ class GoogleMap {
   gmap
   mapId
   mapType
+  key
 
   static GOOGLE_MAP_TYPES = {
     SATELLITE: 'satellite',
@@ -16,6 +19,7 @@ class GoogleMap {
 
   /**
    * GoogleMap constructor parameters.
+   * Initializes and renders a Google Map on screen.
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the Google map.
    * @param {String} [config.mapType] - Google Map base map type/style. Defaults to "satellite".
@@ -44,6 +48,7 @@ class GoogleMap {
 
     this.mapType = mapType ?? GoogleMap.GOOGLE_MAP_TYPES.SATELLITE
     this.mapId = mapId
+    this.key = process.env.GOOGLE_API_KEY
 
     /* eslint-disable no-undef */
     // Set a center point
@@ -58,6 +63,58 @@ class GoogleMap {
       disableDefaultUI: true,
       zoomControl: true
     })
+  }
+
+  /**
+   * Takes a screenshot of the current map area in view.
+   * Uses the Google Static Maps API.
+   */
+  async screenshot () {
+    try {
+      const staticMapURL = 'https://maps.googleapis.com/maps/api/staticmap'
+
+      const center = this.gmap.getCenter()
+      const imgSize = this.gmap.getDiv()
+
+      // Image size. Max 640x640 pixels
+      const size = `${imgSize.offsetWidth}x${imgSize.offsetHeight}`
+
+      const response = await axios.get(staticMapURL, {
+        responseType: 'blob',
+        params: {
+          center: `${center.lat()},${center.lng()}`,
+          zoom: this.gmap.getZoom(),
+          size,
+          maptype: this.mapType,
+          key: this.key
+        }
+      })
+
+      this.downloadScreenshot(response)
+    } catch (err) {
+      console.log(`[ERROR]: ${err.message}`)
+      throw new Error(err.message)
+    }
+  }
+
+  /**
+   * Downloads an image blob as PNG from the browser.
+   * @param {Object} responseObject - Axios response data containing an image blob.
+   */
+  downloadScreenshot (responseObject) {
+    try {
+      const fileUrl = window.URL.createObjectURL(new Blob([responseObject.data]))
+      const link = document.createElement('a')
+
+      link.href = fileUrl
+      link.setAttribute('download', 'file.png')
+      document.body.appendChild(link)
+
+      link.click()
+      document.body.removeChild(link)
+    } catch (err) {
+      throw new Error(err.message)
+    }
   }
 }
 
