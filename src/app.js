@@ -3,6 +3,8 @@ import {
   GoogleMapLeaflet
 } from './map-google'
 
+window.mymap = null
+
 const start = () => {
   const center = {
     lat: 47.242384,
