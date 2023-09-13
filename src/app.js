@@ -1,9 +1,8 @@
-import MapDraw from './map-draw/map-draw.js'
+import { GoogleMap } from './map-google'
 
 const start = () => {
-  const map = new MapDraw({
-    mapId: 'map',
-    baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
+  const map = new GoogleMap({
+    mapId: 'googlemap-basic'
   })
 
   return map
