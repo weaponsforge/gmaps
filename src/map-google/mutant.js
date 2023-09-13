@@ -94,6 +94,29 @@ class GoogleMapLeaflet extends Webmap {
       }
     })
   }
+
+  /**
+   * Takes a screenshot of the current map area in view.
+   * Uses the html2canvas library to capture screenshot in a canvas.
+   */
+  screenshot () {
+    const mapContainer = document.getElementById(this.mapId)
+
+    html2canvas(mapContainer, { useCORS: true }).then((canvas) => {
+      console.log(canvas)
+      canvas.toBlob((blob) => {
+        const fileURL = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = fileURL
+        link.setAttribute('download', 'file.png')
+        document.body.appendChild(link)
+
+        link.click()
+        document.body.removeChild(link)
+      })
+    })
+  }
 }
 
 export default GoogleMapLeaflet

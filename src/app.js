@@ -28,11 +28,16 @@ const start = () => {
 
   // Buttons
   const buttonBasic = document.getElementById('screenshot-basic')
+  const buttonLeaflet = document.getElementById('screenshot-leaflet')
 
   buttonBasic.addEventListener('click', (e) => {
-    console.log('click me')
     console.log(map)
     map.screenshot()
+  })
+
+  buttonLeaflet.addEventListener('click', (e) => {
+    console.log(map)
+    mapLeaflet.screenshot()
   })
 
   return mapLeaflet
