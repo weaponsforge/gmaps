@@ -3,6 +3,7 @@
  */
 class Webmap {
   map
+  mapId
 
   /**
    * WebMap constructor parameters
@@ -30,6 +31,17 @@ class Webmap {
 
     /* eslint-disable no-undef */
     this.map = L.map(mapId).setView([mLat, mLng], mZoom)
+    this.mapId = mapId
+  }
+
+  /**
+   * Returns a LeafletJS Marker for map placement.
+   * @param {Object} location - Object containing the latitude and longitude in { lat, lng }
+   * @returns
+   */
+  createMarker (location) {
+    /* eslint-disable new-cap */
+    return new L.marker(location)
   }
 }
 
