@@ -54,7 +54,9 @@ class GoogleMap {
       center: point,
       mapTypeId: this.mapType,
       tilt,
-      zoom: parseInt(mZoom)
+      zoom: parseInt(mZoom),
+      disableDefaultUI: true,
+      zoomControl: true
     })
   }
 }
