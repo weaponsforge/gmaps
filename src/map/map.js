@@ -3,6 +3,7 @@
  */
 class Webmap {
   map
+  config
 
   /**
    * WebMap constructor parameters
@@ -30,6 +31,7 @@ class Webmap {
 
     /* eslint-disable no-undef */
     this.map = L.map(mapId).setView([mLat, mLng], mZoom)
+    this.config = config
   }
 }
 
