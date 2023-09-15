@@ -30,6 +30,8 @@ class GoogleMap {
   /**
    * GoogleMap constructor parameters.
    * Initializes and renders a Google Map on screen.
+   * https://developers.google.com/maps/documentation/javascript/controls
+   * 
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the Google map.
    * @param {String} [config.mapType] - Google Map base map type/style. Defaults to "satellite".
