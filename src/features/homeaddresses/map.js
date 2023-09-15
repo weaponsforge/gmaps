@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { MapDraw } from '../../lib/maps/drawing'
 
 /**
@@ -19,10 +20,12 @@ class HomeAddressesWebMap extends MapDraw {
   gmap
   gmapId
   result
+  pagination
 
   /**
    * HomeAddressesWebMap constructor parameters
    * @typedef {Object} config
+   * @param {String} config.mapId - HTML DOM id where to render the LeafletJS map.
    * @param {String} config.gmapID - HTML DOM id where to render the Google Map.
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
    * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
@@ -33,7 +36,14 @@ class HomeAddressesWebMap extends MapDraw {
 
     this.gmapId = config?.gmapId ?? '-'
     this.initGoogleMaps(this.gmapId)
+
     this.fetchCallback = this.fetchCallback.bind(this)
+    this.fetchNearbyPlaces = this.fetchNearbyPlaces.bind(this)
+    this.createPlacesService = this.createPlacesService.bind(this)
+
+    this.bindMapEvents({
+      cbCircle: this.fetchNearbyPlaces
+    })
   }
 
   /**
@@ -49,45 +59,6 @@ class HomeAddressesWebMap extends MapDraw {
       center: point,
       mapTypeId: 'satellite',
       zoom: 18
-    })
-  }
-
-  /**
-   * Overwrite the parent bindMapEvents: Fetch home addresses after drawing a Circle.
-   */
-  bindMapEvents () {
-    const that = this
-
-    this.map.on(L.Draw.Event.CREATED, async function (e) {
-      const { layer, layerType: type } = e
-
-      if (type === MapDraw.SHAPE_TYPES.CIRCLE) {
-        console.log('is circle')
-
-        // Circle radius
-        const radius = layer.getRadius()
-
-        // Circle center
-        const center = [
-          layer.getLatLng()?.lng ?? 0,
-          layer.getLatLng()?.lat ?? 0
-        ]
-
-        that.editableLayers.addLayer(layer)
-
-        // Display a Point marker in the center radius
-        that.createMarker(layer.getLatLng()).addTo(that.map)
-
-        console.log(`radius: ${radius}`)
-        console.log(`center: ${center}`)
-
-        that.fetchNearbyPlaces({
-          location: layer.getLatLng(),
-          radius
-        })
-      } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
-        console.log('is polygon')
-      }
     })
   }
 
@@ -121,15 +92,12 @@ class HomeAddressesWebMap extends MapDraw {
   }
 
   /**
-   * Fetch home and establishments addresses using the Google Places NearbySearch API (for the frontend).
-   * It uses the Maps JavaScript API (initializting a google map) for compatibility running on the frontend.
-   * @typedef {Object} params
-   * @param {Object} params.location - Object containing latitude and longitude i.e., { lat, lng }
-   * @param {Object} params.radius - Circle radius in miles from the center "location"
+   * Creates a Google Places Service object
+   * @param {Object} location - Object containing latitude and longitude i.e., { lat, lng }
+   * @returns
    */
-  fetchNearbyPlaces ({ location, radius, callback }) {
+  createPlacesService (location) {
     const point = new google.maps.LatLng(location.lat, location.lng)
-    // const place = { lat: location.lat, lng: location.lng }
 
     this.gmap = new google.maps.Map(document.getElementById(this.gmapId), {
       center: point,
@@ -137,9 +105,23 @@ class HomeAddressesWebMap extends MapDraw {
       mapTypeId: 'satellite'
     })
 
+    const service = new google.maps.places.PlacesService(this.gmap)
+    return service
+  }
+
+  /**
+   * Fetch home and establishments addresses using the Google Places NearbySearch API (for the frontend).
+   * It uses the Maps JavaScript API (initializting a google map) for compatibility running on the frontend.
+   * @typedef {Object} params
+   * @param {Object} params.location - Object containing latitude and longitude i.e., { lat, lng }
+   * @param {Object} params.radius - Circle radius in miles from the center "location"
+   */
+  async fetchNearbyPlaces ({ location, radius, callback }) {
     console.log('---fetching center', location)
     console.log('---radius', radius)
-    console.log('---point', point)
+
+    // Create a Places service at the given map center
+    const service = this.createPlacesService(location)
 
     const request = {
       location,
@@ -153,8 +135,14 @@ class HomeAddressesWebMap extends MapDraw {
       }
     }
 
-    const service = new google.maps.places.PlacesService(this.gmap)
-    service.nearbySearch(request, this.fetchCallback)
+    service.nearbySearch(request, (results, status, pagination) => {
+      if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
+        console.log(`Search status error: ${status}`, results)
+      } else {
+        console.log(results)
+        this.fetchCallback(results, status, pagination)
+      }
+    })
   }
 
   fetchCallback (results, status, pagination) {
