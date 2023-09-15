@@ -1,4 +1,4 @@
-import WebMapBox from '../mapbox'
+import { WebMapBox } from '../mapbox'
 import { leafletDrawOptions } from './constants.js'
 
 /**
