@@ -1,8 +1,12 @@
 {
-  "name": "livereload-webpack",
+  "name": "gmaps",
   "version": "1.2.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "18.14.2",
+    "npm": "9.5.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "webpack-dev-server --open --mode development",
