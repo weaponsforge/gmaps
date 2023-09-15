@@ -5,11 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= htmlWebpackPlugin.options.title %></title>
 
+  <!-- Google Maps -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?v=3.51&key=<%= htmlWebpackPlugin.options.author %>&libraries=places&callback=initMap" async defer></script>
+
   <!-- LeafletJS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+  <!-- LeafletJS: Leaflet Draw -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+
+  <!-- LeafletJS: Google Mutant
+  <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script> -->
+  <script src="./lib/Leaflet.GoogleMutant.min.js"></script>
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -17,24 +27,53 @@
   <!-- TurfJS -->
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
 
-  <!-- Google Maps -->
-  <script
-    src="https://maps.googleapis.com/maps/api/js?v=3.51&key=<%= htmlWebpackPlugin.options.author %>&libraries=places&callback=initMap"></script>
-
-
   <!-- MapBox GL JS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
   <script src="https://unpkg.com/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
 
+  <!-- html2canvas -->
+  <script defer src="./lib/html2canvas.js"></script>
 </head>
 <body>
   <!-- Navigation bar -->
-  <div class="navbar"></div>
+  <div class="navbar">
+  </div>
 
-  <!-- Full screen web map -->
-  <div id="map"></div>
+  <div class="container">
+    <div>
+      <h2>Google Maps - Basic</h2>
 
-  <div id="gmap"></div>
+      <button id="screenshot-basic">
+        Screenshot (Static MAPS API)
+      </button>
+
+      <button id="screenshot-basic-canvas">
+        Screenshot (html2canvas)
+      </button>
+
+      <p>
+        This demo renders a Google Map using the Google Maps API.
+      </p>
+
+      <!-- Full screen basic Google maps -->
+      <div id="googlemap-basic"></div>
+    </div>
+
+    <div>
+      <h2>LeafletJS Map - Google Map</h2>
+
+      <button id="screenshot-leaflet">
+        Screenshot (html2canvas)
+      </button>
+
+      <p>
+        This demo renders a Google Map using LeafletJS.
+      </p>
+
+      <!-- Full screen LeafletJS web map displaying Google Maps satellite -->
+      <div id="googlemap-leaflet"></div>
+    </div>
+  </div>
 </body>
 </html>

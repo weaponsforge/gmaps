@@ -1,3 +1,10 @@
 node_modules/
 dist/
+src/lib/*.js
 *.env
+*.zip
+*.rar
+*.txt
+*.csv
+*.xlsx
+*.json
