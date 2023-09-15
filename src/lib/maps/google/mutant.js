@@ -1,4 +1,4 @@
-import Webmap from '../map/map'
+import { BaseMap } from '../basemap'
 import GoogleMap from './basic'
 import { leafletDrawOptions } from '../map-draw/constants'
 import { screenshotCanvas } from './utils'
@@ -8,7 +8,7 @@ import { screenshotCanvas } from './utils'
  * This web map have Leaflet.Draw Circle and Polygon drawing tools.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMapLeaflet extends Webmap {
+class GoogleMapLeaflet extends BaseMap {
   editableLayers = null
   drawControl = null
   gmap

@@ -1,7 +1,7 @@
 import {
   GoogleMap,
   GoogleMapLeaflet
-} from './map-google'
+} from './lib/maps/google'
 
 window.mymap = null
 
