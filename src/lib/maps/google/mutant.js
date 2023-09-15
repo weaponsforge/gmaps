@@ -1,23 +1,13 @@
-import { BaseMap } from '../basemap'
 import GoogleMap from './basic'
-import { leafletDrawOptions } from '../drawing/constants'
+import { MapDraw } from '../drawing'
 import { screenshotCanvas } from './utils'
 
 /**
  * Sub class for rendering a Google Map insidea a Leaflet web map using the LeafletJS GoogleMutant plugin.
- * This web map have Leaflet.Draw Circle and Polygon drawing tools.
+ * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMapLeaflet extends BaseMap {
-  editableLayers = null
-  drawControl = null
-  gmap
-
-  static SHAPE_TYPES = {
-    CIRCLE: 'circle',
-    POLYGON: 'polygon'
-  }
-
+class GoogleMapLeaflet extends MapDraw {
   /**
    * GoogleMapLeaflet constructor parameters.
    * Initializes and renders a Google Map using LeafletJS with drawing controls.
@@ -31,68 +21,10 @@ class GoogleMapLeaflet extends BaseMap {
     super(config)
 
     /* eslint-disable no-undef */
-    // Create an editable layer
-    this.editableLayers = new L.FeatureGroup()
-    this.map.addLayer(this.editableLayers)
-
-    // Initialize leaflet drawing tools and events
-    this.initControl()
-    this.bindMapEvents()
-
-    /* eslint-disable no-undef */
     // Render a Google Map base map
     L.gridLayer.googleMutant({
       type: GoogleMap.GOOGLE_MAP_TYPES.SATELLITE
     }).addTo(this.map)
-  }
-
-  /**
-   * Initialises the Leaflet.Draw plugin drawing controls on the map.
-   */
-  initControl () {
-    // Create a draw control
-    this.drawControl = new L.Control.Draw(leafletDrawOptions)
-
-    this.map.addControl(this.drawControl, {
-      center: {
-        lat: process.env.MAP_LAT,
-        lng: process.env.MAP_LON
-      }
-    })
-  }
-
-  /**
-   * Binds events to the web map
-   */
-  bindMapEvents () {
-    const that = this
-
-    this.map.on(L.Draw.Event.CREATED, async function (e) {
-      const { layer, layerType: type } = e
-
-      if (type === GoogleMapLeaflet.SHAPE_TYPES.CIRCLE) {
-        console.log('is circle')
-
-        // Circle radius
-        const radius = layer.getRadius()
-
-        // Circle center
-        const center = [
-          layer.getLatLng()?.lng ?? 0,
-          layer.getLatLng()?.lat ?? 0
-        ]
-
-        that.editableLayers.addLayer(layer)
-
-        // Display a Point marker in the center radius
-        that.createMarker(layer.getLatLng()).addTo(that.map)
-
-        console.log(`radius: ${radius}`)
-        console.log(`center: ${center}`)
-      } else if (type === GoogleMapLeaflet.SHAPE_TYPES.POLYGON) {
-        console.log('is polygon')
-      }
-    })
   }
 
   /**
