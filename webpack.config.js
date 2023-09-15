@@ -2,6 +2,7 @@ require('dotenv').config()
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   // Files to watch for
@@ -26,7 +27,16 @@ module.exports = {
     new webpack.EnvironmentPlugin(['APP_NAME']),
     new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('MAP_')))),
     new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('MAPBOX_')))),
-    new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('GOOGLE_'))))
+    new webpack.EnvironmentPlugin((Object.keys(process.env).filter(key => key.startsWith('GOOGLE_')))),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/lib/plugins',
+          to: 'lib/plugins'
+        }
+      ]
+    })
   ],
 
   // Set node modules to use for various file types

@@ -1,12 +1,13 @@
-import MapDraw from './map-draw/map-draw.js'
+import HomeAddressesWebMap from './features/homeaddresses/map'
+
+window.mymap = null
 
 const start = () => {
-  const map = new MapDraw({
+  window.mymap = new HomeAddressesWebMap({
     mapId: 'map',
+    gmapId: 'gmap',
     baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
   })
-
-  return map
 }
 
 start()
