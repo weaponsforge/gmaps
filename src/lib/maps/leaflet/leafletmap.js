@@ -1,9 +1,9 @@
-import WebMap from '../map/map'
+import BaseMap from '../basemap'
 
 /**
  * Sub class for rendering web maps with Leaflet.TileLayer.
  */
-class WebMapLeaflet extends WebMap {
+class WebMapLeaflet extends BaseMap {
   /**
    * WebMapLeaflet constructor parameters
    * @typedef {Object} config

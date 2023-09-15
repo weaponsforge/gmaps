@@ -1,9 +1,9 @@
-import WebMap from '../map/map.js'
+import { BaseMap } from '../basemap'
 
 /**
  * Sub class for rendering web maps with the Leaflet MapBox GL JS plugin.
  */
-class WebMapBox extends WebMap {
+class WebMapBox extends BaseMap {
   /**
    * WebMapBox constructor parameters
    * @typedef {Object} config

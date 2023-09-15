@@ -24,8 +24,8 @@ const map = new MapDraw({
 
 // Global
 import './app.css'
-import './map/map.css'
-import './map-google/main.css'
+import './lib/maps/basemap/basemap.css'
+import './lib/maps/google/main.css'
 import './app.js'
 // export default map
 

@@ -1,17 +1,13 @@
-import Webmap from '../map/map'
-import GoogleMap from './basic'
-import { leafletDrawOptions } from '../map-draw/constants'
-import { screenshotCanvas } from './utils'
+import { WebMapBox } from '../mapbox'
+import { leafletDrawOptions } from './constants.js'
 
 /**
- * Sub class for rendering a Google Map insidea a Leaflet web map using the LeafletJS GoogleMutant plugin.
- * This web map have Leaflet.Draw Circle and Polygon drawing tools.
- * Requires a properly-configured Google Maps API script via CDN or npm install.
+ * Sub class that allows drawing Polygons and Circles on a LeafletJS web map that uses the MapBox GL JS plugin.
+ * Uses the Leaflet.Draw plugin for drawing.
  */
-class GoogleMapLeaflet extends Webmap {
+class MapDraw extends WebMapBox {
   editableLayers = null
   drawControl = null
-  gmap
 
   static SHAPE_TYPES = {
     CIRCLE: 'circle',
@@ -19,13 +15,11 @@ class GoogleMapLeaflet extends Webmap {
   }
 
   /**
-   * GoogleMapLeaflet constructor parameters.
-   * Initializes and renders a Google Map using LeafletJS with drawing controls.
+   * MapDraw constructor parameters
    * @typedef {Object} config
-   * @param {String} config.mapId - HTML DOM id where to render the map.
-   * @param {String} config.lat - Latitude.
-   * @param {String} config.lng - Longitude.
-   * @param {String} config.zoom - LeafletJS default map zoom.
+   * @param {String} config.styleUrl - MapBox (basemap) style URL.
+   * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
+   * @param {String} config.maxZoom - Maximum map zoom (0 - 24).
    */
   constructor (config) {
     super(config)
@@ -35,15 +29,9 @@ class GoogleMapLeaflet extends Webmap {
     this.editableLayers = new L.FeatureGroup()
     this.map.addLayer(this.editableLayers)
 
-    // Initialize leaflet drawing tools and events
+    // Create a draw control
     this.initControl()
     this.bindMapEvents()
-
-    /* eslint-disable no-undef */
-    // Render a Google Map base map
-    L.gridLayer.googleMutant({
-      type: GoogleMap.GOOGLE_MAP_TYPES.SATELLITE
-    }).addTo(this.map)
   }
 
   /**
@@ -52,8 +40,8 @@ class GoogleMapLeaflet extends Webmap {
   initControl () {
     // Create a draw control
     this.drawControl = new L.Control.Draw(leafletDrawOptions)
-
     this.map.addControl(this.drawControl, {
+      mapTypeId: 'satellite',
       center: {
         lat: process.env.MAP_LAT,
         lng: process.env.MAP_LON
@@ -70,7 +58,7 @@ class GoogleMapLeaflet extends Webmap {
     this.map.on(L.Draw.Event.CREATED, async function (e) {
       const { layer, layerType: type } = e
 
-      if (type === GoogleMapLeaflet.SHAPE_TYPES.CIRCLE) {
+      if (type === MapDraw.SHAPE_TYPES.CIRCLE) {
         console.log('is circle')
 
         // Circle radius
@@ -89,19 +77,19 @@ class GoogleMapLeaflet extends Webmap {
 
         console.log(`radius: ${radius}`)
         console.log(`center: ${center}`)
-      } else if (type === GoogleMapLeaflet.SHAPE_TYPES.POLYGON) {
+
+        /* TURFJS OPTIONS
+        const turfOptions = { steps: 64, units: 'meters' }
+        const turfCircle = turf.circle(center, radius, turfOptions)
+        const turfCircleArea = new L.GeoJSON(turfCircle, {
+          color: 'red'
+        }).addTo(that.map)
+        */
+      } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
       }
     })
   }
-
-  /**
-   * Takes a screenshot of the current map area in view.
-   * Uses the html2canvas library to capture screenshot in a canvas.
-   */
-  screenshot () {
-    screenshotCanvas(this.mapId)
-  }
 }
 
-export default GoogleMapLeaflet
+export default MapDraw

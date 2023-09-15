@@ -1,13 +1,13 @@
 /**
  * Base class for managing LeafletJS web maps.
  */
-class Webmap {
+class BaseMap {
   map
   mapId
   config
 
   /**
-   * WebMap constructor parameters
+   * BaseMap constructor parameters
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the map.
    * @param {String} config.lat - Latitude.
@@ -47,4 +47,4 @@ class Webmap {
   }
 }
 
-export default Webmap
+export default BaseMap
