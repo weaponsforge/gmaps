@@ -20,6 +20,7 @@ class HomeAddressesWebMap extends MapDraw {
   gmap
   gmapId
   result
+  addresses = []
   pagination
 
   /**
@@ -37,9 +38,9 @@ class HomeAddressesWebMap extends MapDraw {
     this.gmapId = config?.gmapId ?? '-'
     this.initGoogleMaps(this.gmapId)
 
-    this.fetchCallback = this.fetchCallback.bind(this)
     this.fetchNearbyPlaces = this.fetchNearbyPlaces.bind(this)
     this.createPlacesService = this.createPlacesService.bind(this)
+    this.drawMarkers = this.drawMarkers.bind(this)
 
     this.bindMapEvents({
       cbCircle: this.fetchNearbyPlaces
@@ -117,8 +118,10 @@ class HomeAddressesWebMap extends MapDraw {
    * @param {Object} params.radius - Circle radius in miles from the center "location"
    */
   async fetchNearbyPlaces ({ location, radius, callback }) {
+    this.addresses = []
+
     console.log('---fetching center', location)
-    console.log('---radius', radius)
+    console.log(`---radius: ${radius} meters`)
 
     // Create a Places service at the given map center
     const service = this.createPlacesService(location)
@@ -135,22 +138,39 @@ class HomeAddressesWebMap extends MapDraw {
       }
     }
 
-    service.nearbySearch(request, (results, status, pagination) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
-        console.log(`Search status error: ${status}`, results)
-      } else {
-        console.log(results)
-        this.fetchCallback(results, status, pagination)
-      }
-    })
+    try {
+      // Fetch all home addresses
+      await new Promise((resolve, reject) => {
+        service.nearbySearch(request, (results, status, pagination) => {
+          if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
+            reject(new Error('Search status error'))
+          } else {
+            setTimeout(() => {
+              this.addresses = [...this.addresses, ...results]
+
+              if (pagination.hasNextPage) {
+                console.log('---fetching next page')
+                pagination.nextPage()
+              } else {
+                console.log(`---finished fetching ${this.addresses.length} addresses`)
+                resolve('finished')
+              }
+            }, 3000)
+          }
+        })
+      })
+
+      this.drawMarkers(this.addresses)
+    } catch (err) {
+      console.log(`[ERROR]: ${err.message}`)
+    }
   }
 
-  fetchCallback (results, status, pagination) {
+  drawMarkers (results) {
     const that = this
     that.result = results
 
-    console.log('---fetch results', status)
-    console.log('---pagination', pagination)
+    console.log('---fetch results')
     console.log(results)
     console.log(results.map(x => `${x.vicinity}\n`).reduce((list, x, index) => {
       return `${list} ${x}`
