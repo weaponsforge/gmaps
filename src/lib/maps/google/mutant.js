@@ -3,7 +3,7 @@ import { MapDraw } from '../drawing'
 import { screenshotCanvas } from './utils'
 
 /**
- * Sub class for rendering a Google Map insidea a Leaflet web map using the LeafletJS GoogleMutant plugin.
+ * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
  * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
