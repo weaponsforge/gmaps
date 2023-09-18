@@ -4,7 +4,7 @@ html, body {
 
 .container {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh + 100px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-columns: 1fr;
@@ -41,6 +41,11 @@ h2 {
 
 .inputbox h3 {
   text-align: center;
+}
+
+.info {
+  font-style: italic;
+  height: 60px;
 }
 
 @media screen and (min-width: 800px) {
