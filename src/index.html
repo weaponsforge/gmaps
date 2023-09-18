@@ -34,19 +34,34 @@
 </head>
 <body>
   <div class="container">
+    <!-- 2D Map: MapBox basemap on Leaflet -->
     <div class="map">
       <h2>2D Web Map - Using MapBox</h2>
       <div id="map_mapbox"></div>
     </div>
+
+    <!-- 2D Map: Google Maps on Leaflet -->
     <div class="map">
       <h2>2D Web Map - Using Google Maps</h2>
       <div id="map_google_2d"></div>
     </div>
+
+    <!-- 3D Map: Google Maps API -->
     <div class="map">
       <h2>3D Web Map - Using Google Maps</h2>
       <div id="map_google_3d"></div>
     </div>
-    <div class="map"></div>
+
+    <!-- Address search -->
+    <div class="map inputbox">
+      <div>
+        <h3>Home Address Input</h3>
+        <input type="text" id="searchbox"
+          placeholder="Enter your Address"
+          autocomplete="off" />
+      </div>
+    </div>
+
   </div>
 </body>
 </html>

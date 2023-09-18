@@ -68,9 +68,9 @@ The following dependecies are used for this project. Feel free to experiment usi
 1. Run the localhost static website development environment.<br>
 `npm run dev`
 
-1.  Edit the existing static files from the **./src** directory and wait for live reload. Your updates will reflect on the web browser.
+2.  Edit the existing static files from the **./src** directory and wait for live reload. Your updates will reflect on the web browser.
 
-2. To include new static website files on live reload:
+3. To include new static website files on live reload:
 	- Stop the localhost **dev** server.
 	- Create new static (.js, .css) files inside the **./src** directory.
 		- Import the new **.js** and **.css** files in **./src/index.js**
@@ -80,12 +80,11 @@ The following dependecies are used for this project. Feel free to experiment usi
 	- Re-start the **dev** server.<br>
 `npm run dev`
 
-1. Build the project for production environment. Built static files are placed in the **/dist** directory.<br>
+4. Build the project for production environment. Built static files are placed in the **/dist** directory.<br>
 `npm run build`
 
-1. Run the production static website (does not use live reload).<br>
+5. Run the production static website (does not use live reload).<br>
 `npm run start`
-
 
 ## References
 

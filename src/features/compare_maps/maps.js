@@ -1,11 +1,12 @@
-import { WebMapBox } from '../../lib/maps/mapbox'
+import { MapDraw } from '../../lib/maps/drawing'
+
 import {
   GoogleMap,
   GoogleMapLeaflet
 } from '../../lib/maps/google'
 
 const main = () => {
-  const map = new WebMapBox({
+  const map = new MapDraw({
     mapId: 'map_mapbox'
   })
 
@@ -15,6 +16,38 @@ const main = () => {
 
   const gmap3d = new GoogleMap({
     mapId: 'map_google_3d'
+  })
+
+  // Address search
+  const input = document.getElementById('searchbox')
+
+  /* eslint-disable no-undef */
+  const searchbox = new google.maps.places.SearchBox(input)
+
+  searchbox.addListener('places_changed', () => {
+    const places = searchbox.getPlaces()
+
+    if (places.length === 0) {
+      return
+    }
+
+    const place = places[0]
+    const coords = [
+      place.geometry.location.lat(),
+      place.geometry.location.lng()
+    ]
+
+    const newZoom = 18
+
+    // Set map view to coords
+    gmap3d.gmap.setCenter(place.geometry.location)
+    gmap3d.gmap.setZoom(newZoom)
+
+    gmap2d.map.setView(coords)
+    gmap2d.map.setZoom(newZoom)
+
+    map.map.setView(coords)
+    map.map.setZoom(newZoom)
   })
 
   return {
