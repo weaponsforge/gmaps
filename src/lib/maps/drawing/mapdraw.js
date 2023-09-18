@@ -8,6 +8,7 @@ import { leafletDrawOptions } from './constants.js'
 class MapDraw extends WebMapBox {
   editableLayers = null
   drawControl = null
+  showCenter = false
 
   static SHAPE_TYPES = {
     CIRCLE: 'circle',
@@ -15,11 +16,15 @@ class MapDraw extends WebMapBox {
   }
 
   /**
-   * MapDraw constructor parameters
+   * MapDraw constructor parameters.
+   * All constructor parameters to the WebMapBox class also apply.
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
    * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
    * @param {String} config.maxZoom - Maximum map zoom (0 - 24).
+   * @param {Bool} config.showCenter - Flag to draw a Marker in the drawn shape's center. Defaults to "false".
+   * @param {Function} config.callbackcircle - (Optional) Callback method after drawing a Circle.
+   * @param {Function} config.callbackpolygon - (Optional) Callback method after drawing a Polygon.
    */
   constructor (config) {
     super(config)
@@ -28,10 +33,15 @@ class MapDraw extends WebMapBox {
     // Create an editable layer
     this.editableLayers = new L.FeatureGroup()
     this.map.addLayer(this.editableLayers)
+    this.showCenter = config?.showCenter ?? false
 
     // Create a draw control
     this.initControl()
-    this.bindMapEvents()
+
+    this.bindMapEvents({
+      cbCircle: config?.callbackcircle ?? undefined,
+      cbPolygon: config?.callbackpolygon ?? undefined
+    })
   }
 
   /**
@@ -41,7 +51,6 @@ class MapDraw extends WebMapBox {
     // Create a draw control
     this.drawControl = new L.Control.Draw(leafletDrawOptions)
     this.map.addControl(this.drawControl, {
-      mapTypeId: 'satellite',
       center: {
         lat: process.env.MAP_LAT,
         lng: process.env.MAP_LON
@@ -50,9 +59,12 @@ class MapDraw extends WebMapBox {
   }
 
   /**
-   * Binds events to the web map
+   * Binds events to the web map.
+   * @typedef {Object} params
+   * @param {Function} params.cbCircle - Callback function on draw of a Circle object.
+   * @param {Function} params.cbPolygon - Callback function on draw of a Polygon object.
    */
-  bindMapEvents () {
+  bindMapEvents (callback) {
     const that = this
 
     this.map.on(L.Draw.Event.CREATED, async function (e) {
@@ -72,11 +84,20 @@ class MapDraw extends WebMapBox {
 
         that.editableLayers.addLayer(layer)
 
-        // Display a Point marker in the center radius
-        that.createMarker(layer.getLatLng()).addTo(that.map)
+        if (callback.cbCircle !== undefined) {
+          callback.cbCircle({
+            location: layer.getLatLng(),
+            radius
+          })
+        }
 
         console.log(`radius: ${radius}`)
         console.log(`center: ${center}`)
+
+        // Display a Point marker in the center radius
+        if (that.showCenter) {
+          that.createMarker(layer.getLatLng()).addTo(that.map)
+        }
 
         /* TURFJS OPTIONS
         const turfOptions = { steps: 64, units: 'meters' }
@@ -87,6 +108,10 @@ class MapDraw extends WebMapBox {
         */
       } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
+
+        if (callback.cbPolygon !== undefined) {
+          callback.cbPolygon()
+        }
       }
     })
   }
