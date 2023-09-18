@@ -9,4 +9,3 @@ src/lib/plugins/*.js
 *.csv
 *.xlsx
 .firebaserc
-firebase.json
