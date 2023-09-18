@@ -11,6 +11,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
 
+  <!-- LeafletJS: Google Mutant
+  <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script> -->
+  <script src="./lib/plugins/Leaflet.GoogleMutant.min.js"></script>
+
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
@@ -29,12 +33,20 @@
 
 </head>
 <body>
-  <!-- Navigation bar -->
-  <div class="navbar"></div>
-
-  <!-- Full screen web map -->
-  <div id="map"></div>
-
-  <div id="gmap"></div>
+  <div class="container">
+    <div class="map">
+      <h2>2D Web Map - Using MapBox</h2>
+      <div id="map_mapbox"></div>
+    </div>
+    <div class="map">
+      <h2>2D Web Map - Using Google Maps</h2>
+      <div id="map_google_2d"></div>
+    </div>
+    <div class="map">
+      <h2>3D Web Map - Using Google Maps</h2>
+      <div id="map_google_3d"></div>
+    </div>
+    <div class="map"></div>
+  </div>
 </body>
 </html>

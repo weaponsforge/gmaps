@@ -1,13 +1,9 @@
-import HomeAddressesWebMap from './features/homeaddresses/map'
+import maps from './features/compare_maps/maps'
 
 window.mymap = null
 
 const start = () => {
-  window.mymap = new HomeAddressesWebMap({
-    mapId: 'map',
-    gmapId: 'gmap',
-    baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
-  })
+  maps()
 }
 
 start()
