@@ -8,3 +8,5 @@ src/lib/plugins/*.js
 *.txt
 *.csv
 *.xlsx
+.firebaserc
+firebase.json
