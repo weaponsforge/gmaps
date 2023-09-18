@@ -1,9 +1,9 @@
 import maps from './features/compare_maps/maps'
 
-window.mymap = null
+window.maps = null
 
 const start = () => {
-  maps()
+  window.maps = maps()
 }
 
 start()

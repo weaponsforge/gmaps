@@ -19,11 +19,28 @@ h2 {
   margin: auto;
 }
 
+/*--- MAPS ---*/
 #map_mapbox,
 #map_google_2d,
 #map_google_3d {
   width: 100%;
   height: 100%;
+}
+
+/*--- SEARCHBOX ---*/
+#searchbox {
+  width: 400px;
+  height: 40px;
+  font-size: 18px;
+}
+
+.inputbox {
+  display: grid;
+  place-content: center;
+}
+
+.inputbox h3 {
+  text-align: center;
 }
 
 @media screen and (min-width: 800px) {
