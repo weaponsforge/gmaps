@@ -10,6 +10,7 @@ class GoogleMap {
   mapId
   mapType
   key
+  service
 
   static GOOGLE_MAP_TYPES = {
     SATELLITE: 'satellite',
@@ -86,6 +87,9 @@ class GoogleMap {
 
     // Initialize a google map
     this.gmap = new google.maps.Map(document.getElementById(mapId), mapConfig)
+
+    // Initialize a google places service
+    this.service = new google.maps.places.PlacesService(this.gmap)
   }
 
   /**
