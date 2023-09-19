@@ -23,7 +23,7 @@ const createPlacesService = ({ location, gmapId }) => {
   * @typedef {Object} params
   * @param {Object} params.location - Object containing latitude and longitude i.e., { lat, lng }
   * @param {Object} params.radius - Circle radius in miles from the center "location"
-  * @param {String} params.gmapId - HTML DOM id of the element containing an initialized Google Map.
+  * @param {String} params.service - Google Places service object initialized from a Google Map.
   * @returns {Promise} Promise that resolves into an Object[] array of home addresses.
   */
 const fetchNearbyPlaces = async ({ location, radius, service }) => {
