@@ -1,11 +1,17 @@
 import { GoogleMapDraw } from '../../lib/maps/google'
-import { fetchNearbyPlaces } from '../../lib/services'
+import {
+  fetchNearbyPlaces,
+  fetchPlaceDetails,
+  buildUniqueAddresses
+} from '../homeaddresses/lib/services'
 
 /**
  * Subclass that renders a Google Map with drawing tools using the Google Maps APIs.
  * This class have drawing event callbacks for Circles, Rectangles and Polygons.
  */
 class GoogleShape extends GoogleMapDraw {
+  unique_addresses = []
+
   constructor (params) {
     super(params)
 
@@ -17,19 +23,28 @@ class GoogleShape extends GoogleMapDraw {
   }
 
   async onCircleDraw ({ radius, center }) {
-    console.log('circle ok!', radius)
-    console.log(this.gmap)
-
-    const data = await fetchNearbyPlaces({
+    // Fetch prelimimary data using the NearbyPlaces API
+    const dataNearby = await fetchNearbyPlaces({
       location: center,
       radius,
       service: this.service
     })
 
-    console.log(data)
+    // Store unique home addresses (note: no country, state or zip code)
+    this.unique_addresses = buildUniqueAddresses(dataNearby)
+    console.log(this.unique_addresses)
+
+    console.log('---NEARBY SEARCH RESPONSE')
+    console.log(dataNearby)
+
+    // Fetch place details (note: contains detailed place information)
+    const details = await fetchPlaceDetails(dataNearby.map(x => x.place_id))
+    console.log('---FULL PLACE DETAILS')
+    console.log(details)
 
     /* eslint-disable no-undef */
-    data.forEach((address) => {
+    // Marker for each home address
+    dataNearby.forEach((address) => {
       return new google.maps.Marker({
         position: address.geometry.location,
         map: this.gmap,
@@ -37,7 +52,7 @@ class GoogleShape extends GoogleMapDraw {
       })
     })
 
-    /* eslint-disable no-undef */
+    // Center marker
     return new google.maps.Marker({
       position: center,
       map: this.gmap,

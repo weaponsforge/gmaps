@@ -80,8 +80,6 @@ class GoogleMapDraw extends GoogleMap {
   bindDrawEvents (callback) {
     google.maps.event.addListener(this.tools, 'overlaycomplete', (e) => {
       const { type, overlay } = e
-      console.log(e)
-      console.log(callback)
 
       if (type === GoogleMapDraw.DRAWING_MODES.CIRCLE) {
         const radius = overlay.getRadius()
