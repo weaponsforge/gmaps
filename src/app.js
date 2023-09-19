@@ -1,3 +1,3 @@
-import main from './features/shapes/main'
+import main from './features/googleshapes/main'
 
 main()

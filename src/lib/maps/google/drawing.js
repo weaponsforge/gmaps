@@ -3,6 +3,7 @@ import GoogleMap from './basic'
 /**
  * Sub class for rendering a Google Map with drawing tools using the Google Maps API.
  * This web map uses the Google Maps API to draw Circle and Polygon drawing tools.
+ * Accepts callbacks on drawing shapes.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  * https://developers.google.com/maps/documentation/javascript/examples/drawing-tools
  */
@@ -25,13 +26,8 @@ class GoogleMapDraw extends GoogleMap {
    * @param {Bool} params.draw - Toggle the drawing tools visibility.
    * @param {String[]} params.allowModes[] - List of drawing tools to show on the map. Renders all tools if undefined.
    * @param {Object} params.circleOptions - Circle shape drawing options.
-   * @typedef {Object} params.circleOptions - Circle shape drawing options.
-   * @param {String} circleOptions.fillColor - Cicle color
-   * @param {Number} circleOptions.fillOpacity (Float)
-   * @param {Number} circleOptions.strokeWeight Circle edge stroke
-   * @param {Bool} circleOptions.clickable - Circle listens for click events
-   * @param {Bool} circleOptions.editable - Editable Circle
-   * @param {Number} circleOptions.zIndex - zIndex positioning
+   * - { fillColor, fillOpacity, strokeWeight, clickable, editable, zIndex }
+   * @param {Function} params.callbackcircle
    */
   constructor (params) {
     super(params)
@@ -66,6 +62,48 @@ class GoogleMapDraw extends GoogleMap {
     })
 
     this.tools.setMap(this.gmap)
+
+    this.bindDrawEvents({
+      cbCircle: params?.callbackcircle ?? undefined,
+      cbPolygon: params?.callbackpolygon ?? undefined,
+      cbRectangle: params?.callbackrectangle ?? undefined
+    })
+  }
+
+  /**
+   * Binds events to the drawing tools.
+   * @typedef {Object} params
+   * @param {Function} params.cbCircle - Callback function on draw of a Circle object. Passes { radius, center } in the callback.
+   * @param {Function} params.cbPolygon - Callback function on draw of a Polygon object.
+   * @param {Function} params.cbRectangle - Callback function on draw of a Rectangle object.
+   */
+  bindDrawEvents (callback) {
+    google.maps.event.addListener(this.tools, 'overlaycomplete', (e) => {
+      const { type, overlay } = e
+      console.log(e)
+      console.log(callback)
+
+      if (type === GoogleMapDraw.DRAWING_MODES.CIRCLE) {
+        const radius = overlay.getRadius()
+        const center = overlay.getCenter()
+
+        if (callback.cbCircle !== undefined) {
+          callback.cbCircle({ radius, center })
+        }
+      }
+
+      if (type === GoogleMapDraw.DRAWING_MODES.POLYGON) {
+        console.log('is polygon')
+      }
+
+      if (type === GoogleMapDraw.DRAWING_MODES.RECTANGLE) {
+        console.log('is rectangle')
+      }
+
+      if (type === GoogleMapDraw.DRAWING_MODES.MARKER) {
+        console.log('is marker')
+      }
+    })
   }
 }
 
