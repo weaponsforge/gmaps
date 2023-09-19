@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { MapDraw } from '../../lib/maps/drawing'
+import { fetchNearbyPlaces } from '../../lib/services'
 
 /**
  * Sub class for testing fetching all home addresses inside a Circle.
@@ -22,6 +23,7 @@ class HomeAddressesWebMap extends MapDraw {
   result
   addresses = []
   pagination
+  service
 
   /**
    * HomeAddressesWebMap constructor parameters
@@ -38,12 +40,11 @@ class HomeAddressesWebMap extends MapDraw {
     this.gmapId = config?.gmapId ?? '-'
     this.initGoogleMaps(this.gmapId)
 
-    this.fetchNearbyPlaces = this.fetchNearbyPlaces.bind(this)
-    this.createPlacesService = this.createPlacesService.bind(this)
+    this.fetchHomeAddresses = this.fetchHomeAddresses.bind(this)
     this.drawMarkers = this.drawMarkers.bind(this)
 
     this.bindMapEvents({
-      cbCircle: this.fetchNearbyPlaces
+      cbCircle: this.fetchHomeAddresses
     })
   }
 
@@ -61,6 +62,9 @@ class HomeAddressesWebMap extends MapDraw {
       mapTypeId: 'satellite',
       zoom: 18
     })
+
+    // Initialize a Google Places service
+    this.service = new google.maps.places.PlacesService(this.gmap)
   }
 
   /**
@@ -93,76 +97,24 @@ class HomeAddressesWebMap extends MapDraw {
   }
 
   /**
-   * Creates a Google Places Service object
-   * @param {Object} location - Object containing latitude and longitude i.e., { lat, lng }
-   * @returns
-   */
-  createPlacesService (location) {
-    const point = new google.maps.LatLng(location.lat, location.lng)
-
-    this.gmap = new google.maps.Map(document.getElementById(this.gmapId), {
-      center: point,
-      zoom: 19,
-      mapTypeId: 'satellite'
-    })
-
-    const service = new google.maps.places.PlacesService(this.gmap)
-    return service
-  }
-
-  /**
    * Fetch home and establishments addresses using the Google Places NearbySearch API (for the frontend).
    * It uses the Maps JavaScript API (initializting a google map) for compatibility running on the frontend.
    * @typedef {Object} params
    * @param {Object} params.location - Object containing latitude and longitude i.e., { lat, lng }
    * @param {Object} params.radius - Circle radius in miles from the center "location"
    */
-  async fetchNearbyPlaces ({ location, radius, callback }) {
+  async fetchHomeAddresses ({ location, radius, callback }) {
     this.addresses = []
 
     console.log('---fetching center', location)
     console.log(`---radius: ${radius} meters`)
 
-    // Create a Places service at the given map center
-    const service = this.createPlacesService(location)
-
-    const request = {
-      location,
-      radius: Math.round(radius),
-      locationBias: {
-        radius,
-        center: {
-          lat: location.lat,
-          lng: location.lng
-        }
-      }
-    }
-
     try {
-      // Fetch all home addresses
-      await new Promise((resolve, reject) => {
-        service.nearbySearch(request, (results, status, pagination) => {
-          if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
-            reject(new Error('Search status error'))
-          } else {
-            setTimeout(() => {
-              this.addresses = [...this.addresses, ...results]
-
-              if (pagination.hasNextPage) {
-                console.log('---fetching next page')
-                pagination.nextPage()
-              } else {
-                console.log(`---finished fetching ${this.addresses.length} addresses`)
-                resolve('finished')
-              }
-            }, 3000)
-          }
-        })
-      })
-
-      this.drawMarkers(this.addresses)
+      const data = await fetchNearbyPlaces({ location, radius, service: this.service })
+      this.addresses = [...data]
+      this.drawMarkers(data)
     } catch (err) {
-      console.log(`[ERROR]: ${err.message}`)
+      throw new Error(err.message)
     }
   }
 
