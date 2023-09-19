@@ -6,8 +6,8 @@
 ### Content
 
 - [gmaps](#gmaps)
-	- [Content](#content)
-	- [Dependencies](#dependencies)
+  - [Content](#content)
+  - [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Usage](#usage)
 - [References](#references)
@@ -62,6 +62,12 @@ The following dependecies are used for this project. Feel free to experiment usi
    - **feature/weaponsforge-11**<br>
       - Experiments in capturing a screenshot from a 3D (tilted) Google Map, Issue [#11](https://github.com/weaponsforge/gmaps/issues/11)
       - `git checkout feature/weaponsforge-11`
+   - **feature/weaponsforge-22**<br>
+      - Experiments drawing shapes on a 2D/3D (tilted) Google Map, Issue [#22](https://github.com/weaponsforge/gmaps/issues/22)
+      - `git checkout feature/weaponsforge-22`
+   - **feature/weaponsforge-25**<br>
+      - Experiments comparing different types of base maps (MapBox satellite, 2D Google Map, 3D Google Map), Issue [#25](https://github.com/weaponsforge/gmaps/issues/25)
+      - `git checkout feature/weaponsforge-25`
 
 ## Usage
 
