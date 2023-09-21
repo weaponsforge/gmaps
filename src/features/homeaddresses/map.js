@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { MapDraw } from '../../lib/maps/drawing'
-import { fetchNearbyPlaces } from '../../lib/services'
+import { fetchNearbyPlaces } from './lib/services'
 
 /**
  * Sub class for testing fetching all home addresses inside a Circle.

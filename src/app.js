@@ -1,3 +1,13 @@
-import main from './features/googleshapes/main'
+import HomeAddressesWebMap from './features/homeaddresses/map'
 
-main()
+window.mymap = null
+
+const start = () => {
+  window.mymap = new HomeAddressesWebMap({
+    mapId: 'map',
+    gmapId: 'gmap',
+    baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
+  })
+}
+
+start()
