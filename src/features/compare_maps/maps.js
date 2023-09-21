@@ -1,8 +1,8 @@
 import { MapDraw } from '../../lib/maps/drawing'
 
 import {
-  GoogleMap,
-  GoogleMapLeaflet
+  GoogleMapLeaflet,
+  GoogleMapDraw
 } from '../../lib/maps/google'
 
 const main = () => {
@@ -14,8 +14,14 @@ const main = () => {
     mapId: 'map_google_2d'
   })
 
-  const gmap3d = new GoogleMap({
-    mapId: 'map_google_3d'
+  const gmap3d = new GoogleMapDraw({
+    mapId: 'map_google_3d',
+    allowUI: [
+      GoogleMapDraw.GOOGLE_MAP_CONTROLS.FULLSCREEN,
+      GoogleMapDraw.GOOGLE_MAP_CONTROLS.ROTATE,
+      GoogleMapDraw.GOOGLE_MAP_CONTROLS.ROTATE,
+      GoogleMapDraw.GOOGLE_MAP_CONTROLS.ZOOM
+    ]
   })
 
   // Address search
