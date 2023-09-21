@@ -4,7 +4,7 @@ import { fetchNearbyPlaces } from '../../lib/services'
 
 /**
  * Sub class for testing fetching all home addresses inside a Circle.
- * Requires the Google Maps API library.
+ * Draws a 2D Google Map inside using LeafletJS and requires the Google Maps API library.
  *
  * PLACES LIBRARY
  * https://developers.google.com/maps/documentation/javascript/places#place_search_requests
