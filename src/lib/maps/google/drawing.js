@@ -92,6 +92,50 @@ class GoogleMapDraw extends GoogleMap {
 
       if (type === GoogleMapDraw.DRAWING_MODES.POLYGON) {
         console.log('is polygon')
+
+        // Calculate the center coordinates
+        // Reference: https://stackoverflow.com/questions/3081021/how-to-get-the-center-of-a-polygon-in-google-maps-v3
+        const coordinates = overlay.getPath().getArray()
+
+        let x1 = 9999
+        let y1 = 9999
+        let x2 = -1
+        let y2 = -1
+
+        coordinates.forEach(coord => {
+          console.log(coord.lat(), coord.lng())
+          const x = coord.lat()
+          const y = coord.lng()
+
+          if (x < x1) {
+            x1 = x
+          }
+
+          if (x > x2) {
+            x2 = x
+          }
+
+          if (y < y1) {
+            y1 = y
+          }
+
+          if (y > y2) {
+            y2 = y
+          }
+        })
+
+        // Attach the center coordinates
+        overlay.center = {
+          x: x1 + ((x2 - x1) / 2),
+          y: y1 + ((y2 - y1) / 2)
+        }
+
+        // Attach the point coordinates
+        overlay.vertices = coordinates
+
+        if (callback.cbPolygon !== undefined) {
+          callback.cbPolygon(overlay)
+        }
       }
 
       if (type === GoogleMapDraw.DRAWING_MODES.RECTANGLE) {

@@ -16,9 +16,11 @@ class GoogleShape extends GoogleMapDraw {
     super(params)
 
     this.onCircleDraw = this.onCircleDraw.bind(this)
+    this.onPolygonDraw = this.onPolygonDraw.bind(this)
 
     this.bindDrawEvents({
-      cbCircle: this.onCircleDraw
+      cbCircle: this.onCircleDraw,
+      cbPolygon: this.onPolygonDraw
     })
   }
 
@@ -58,6 +60,10 @@ class GoogleShape extends GoogleMapDraw {
       map: this.gmap,
       title: 'Hello, world!'
     })
+  }
+
+  onPolygonDraw (overlay) {
+    console.log(overlay)
   }
 }
 
