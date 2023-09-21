@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+  <!-- LeafletJS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+
+  <!-- LeafletJS: Google Mutant
+  <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script> -->
+  <script src="./lib/plugins/Leaflet.GoogleMutant.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+  <!-- TurfJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+
+  <!-- Google Maps -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?v=3.51&key=<%= htmlWebpackPlugin.options.author %>&libraries=places,drawing&callback=initMap"></script>
+
+
+  <!-- MapBox GL JS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <!-- 2D Map: MapBox basemap on Leaflet -->
+    <div class="map">
+      <div class="info">
+        <h2>2D Web Map - Using MapBox</h2>
+        (Currently used by the List via Map page)
+      </div>
+      <div id="map_mapbox"></div>
+    </div>
+
+    <!-- 2D Map: Google Maps on Leaflet -->
+    <div class="map">
+      <div class="info">
+        <h2>2D Web Map - Using Google Maps</h2>
+        (Already by the Request Measurement page - therefore measurements and screenshot are already working)
+      </div>
+      <div id="map_google_2d"></div>
+    </div>
+
+    <!-- 3D Map: Google Maps API -->
+    <div class="map">
+      <div class="info">
+        <h2>3D Web Map - Using Google Maps</h2>
+        (Experimental. Press the button with 4 squares/tiles to toggle 3D/2D view)
+      </div>
+      <div id="map_google_3d"></div>
+    </div>
+
+    <!-- Address search -->
+    <div class="map inputbox">
+      <div>
+        <h3>Home Address Input</h3>
+        <input type="text" id="searchbox"
+          placeholder="Enter your Address"
+          autocomplete="off" />
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
