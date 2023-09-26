@@ -97,13 +97,19 @@ class GoogleMapDraw extends GoogleMap {
         // Reference: https://stackoverflow.com/questions/3081021/how-to-get-the-center-of-a-polygon-in-google-maps-v3
         const coordinates = overlay.getPath().getArray()
 
-        let x1 = 9999
-        let y1 = 9999
-        let x2 = -1
-        let y2 = -1
+        // Lowest x coordinate
+        let x1 = coordinates[0].lat()
+
+        // Lowest y coordinate
+        let y1 = coordinates[0].lng()
+
+        // Highest x coordinate
+        let x2 = coordinates[1].lat()
+
+        // Highest y coordinate
+        let y2 = coordinates[1].lng()
 
         coordinates.forEach(coord => {
-          console.log(coord.lat(), coord.lng())
           const x = coord.lat()
           const y = coord.lng()
 
@@ -124,14 +130,15 @@ class GoogleMapDraw extends GoogleMap {
           }
         })
 
-        // Attach the center coordinates
-        overlay.center = {
+        // Find the center
+        const centerPoint = {
           x: x1 + ((x2 - x1) / 2),
           y: y1 + ((y2 - y1) / 2)
         }
 
-        // Attach the point coordinates
+        // Attach the center and point coordinates
         overlay.vertices = coordinates
+        overlay.center = new google.maps.LatLng(centerPoint.x, centerPoint.y)
 
         if (callback.cbPolygon !== undefined) {
           callback.cbPolygon(overlay)
