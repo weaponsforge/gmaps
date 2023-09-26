@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { screenshotCanvas } from './utils'
+import { MapUtils } from '../common'
 
 /**
  * Base class for rendering web maps using the Google Maps API (directly).
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMap {
+class GoogleMap extends MapUtils {
   gmap
   mapId
   mapType
@@ -46,6 +47,8 @@ class GoogleMap {
    *      ['zoomControl', 'mapTypeControl', 'scaleControl', 'streetViewControl', 'rotateControl', 'fullscreenControl']
    */
   constructor (config) {
+    super()
+
     const {
       mapId,
       mapType,
