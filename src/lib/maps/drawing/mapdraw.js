@@ -110,7 +110,7 @@ class MapDraw extends WebMapBox {
         console.log('is polygon')
 
         if (callback.cbPolygon !== undefined) {
-          callback.cbPolygon()
+          callback.cbPolygon(layer)
         }
       }
     })
