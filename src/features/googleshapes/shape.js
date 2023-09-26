@@ -23,6 +23,7 @@ function PinSymbol (color) {
 class GoogleShape extends GoogleMapDraw {
   unique_addresses = []
   currentShape = null
+  currentShapeType = null
 
   // https://developers.google.com/maps/documentation/javascript/events
   MAP_EVENTS = {
@@ -46,7 +47,8 @@ class GoogleShape extends GoogleMapDraw {
     this.gmap.addListener(this.MAP_EVENTS.TILT, () => {
       console.log('---TILT changed')
 
-      if (this.currentShape !== null) {
+      if ((this.currentShape !== null)
+        && (this.currentShapeType === GoogleMapDraw.DRAWING_MODES.POLYGON)) {
         const tiltFactor = 0.1
         const currentTilt = this.gmap.getTilt()
         const adjustment = 1 + (currentTilt * tiltFactor)
@@ -112,6 +114,7 @@ class GoogleShape extends GoogleMapDraw {
 
   onPolygonDraw (polygon) {
     this.currentShape = polygon
+    this.currentShapeType = GoogleMapDraw.DRAWING_MODES.POLYGON
 
     console.log(polygon)
     console.log('---path', polygon.getPath())
