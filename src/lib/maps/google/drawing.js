@@ -136,10 +136,10 @@ class GoogleMapDraw extends GoogleMap {
           y: y1 + ((y2 - y1) / 2)
         }
 
-        // Attach the pplygon vertices coordinates, area, and center to the overlay object
+        // Attach the polygon vertices coordinates, area, and center to the overlay object
         overlay.vertices = coordinates
         overlay.center = new google.maps.LatLng(centerPoint.x, centerPoint.y)
-        overlay.area = google.maps.geometry.spherical.computeArea(polygon.getPath())
+        overlay.area = google.maps.geometry.spherical.computeArea(overlay.getPath())
 
         if (callback.cbPolygon !== undefined) {
           callback.cbPolygon(overlay)

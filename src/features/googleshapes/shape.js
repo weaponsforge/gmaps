@@ -65,10 +65,24 @@ class GoogleShape extends GoogleMapDraw {
   onPolygonDraw (polygon) {
     console.log(polygon)
     console.log('---path', polygon.getPath())
-    const area = google.maps.geometry.spherical.computeArea(polygon.getPath())
-    const currentRoofArea = area * 10.7639
+    const currentRoofArea = polygon.area * 10.7639
 
-    console.log('--area', area, currentRoofArea)
+    console.log('--area', polygon.area, currentRoofArea)
+
+    polygon.vertices.forEach((coord) => {
+      // Draw markers
+      return new google.maps.Marker({
+        position: coord,
+        map: this.gmap,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      })
+    })
+
+    // Draw a center marker
+    return new google.maps.Marker({
+      position: polygon.center,
+      map: this.gmap
+    })
   }
 }
 
