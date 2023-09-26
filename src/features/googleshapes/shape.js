@@ -5,12 +5,31 @@ import {
   buildUniqueAddresses
 } from '../homeaddresses/lib/services'
 
+function PinSymbol (color) {
+  return {
+    path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+    fillColor: color,
+    fillOpacity: 1,
+    strokeColor: '#000',
+    strokeWeight: 2,
+    scale: 1
+  }
+}
+
 /**
  * Subclass that renders a Google Map with drawing tools using the Google Maps APIs.
  * This class have drawing event callbacks for Circles, Rectangles and Polygons.
  */
 class GoogleShape extends GoogleMapDraw {
   unique_addresses = []
+  currentShape = null
+
+  // https://developers.google.com/maps/documentation/javascript/events
+  MAP_EVENTS = {
+    ROTATION: 'heading_changed',
+    TILT: 'tilt_changed',
+    RESIZE: 'resize'
+  }
 
   constructor (params) {
     super(params)
@@ -21,6 +40,36 @@ class GoogleShape extends GoogleMapDraw {
     this.bindDrawEvents({
       cbCircle: this.onCircleDraw,
       cbPolygon: this.onPolygonDraw
+    })
+
+    // Testing: update polygon paths on map tilt
+    this.gmap.addListener(this.MAP_EVENTS.TILT, () => {
+      console.log('---TILT changed')
+
+      if (this.currentShape !== null) {
+        const tiltFactor = 0.1
+        const currentTilt = this.gmap.getTilt()
+        const adjustment = 1 + (currentTilt * tiltFactor)
+        const originalPath = this.currentShape.getPath()
+        const newPath = []
+
+        originalPath.forEach((coord) => {
+          const adjustedLat = coord.lat() * adjustment
+          const adjustedLng = coord.lng() * adjustment
+          /* eslint-disable no-undef */
+          const adjustedCoord = new google.maps.LatLng(adjustedLat, adjustedLng)
+          newPath.push(adjustedCoord)
+        })
+
+        console.log('---updating tilt...')
+        console.log(`---map tilt: ${this.gmap.getTilt()}`)
+        console.log(`---tilt factor: ${tiltFactor}`)
+        console.log(`---adjustment: ${adjustment}`)
+        console.log('---original coords: ', originalPath.getArray().map(x => ({ lat: x.lat(), lng: x.lng() })))
+        console.log('---new coords', newPath.map(x => ({ lat: x.lat(), lng: x.lng() })))
+
+        this.currentShape.setPath(newPath)
+      }
     })
   }
 
@@ -49,8 +98,7 @@ class GoogleShape extends GoogleMapDraw {
     dataNearby.forEach((address) => {
       return new google.maps.Marker({
         position: address.geometry.location,
-        map: this.gmap,
-        title: 'Hello, world!'
+        map: this.gmap
       })
     })
 
@@ -58,11 +106,13 @@ class GoogleShape extends GoogleMapDraw {
     return new google.maps.Marker({
       position: center,
       map: this.gmap,
-      title: 'Hello, world!'
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     })
   }
 
   onPolygonDraw (polygon) {
+    this.currentShape = polygon
+
     console.log(polygon)
     console.log('---path', polygon.getPath())
     const currentRoofArea = polygon.area * 10.7639
@@ -74,7 +124,8 @@ class GoogleShape extends GoogleMapDraw {
       return new google.maps.Marker({
         position: coord,
         map: this.gmap,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        icon: PinSymbol('#58FF33')
+        // icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       })
     })
 

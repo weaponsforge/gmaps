@@ -1,5 +1,4 @@
 import GoogleShape from './shape'
-window.mymap = null
 
 /**
  * Draw Circles and Polygons in a Google Map using the Google Maps API.
