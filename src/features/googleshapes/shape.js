@@ -49,6 +49,7 @@ class GoogleShape extends GoogleMapDraw {
 
       if ((this.currentShape !== null)
         && (this.currentShapeType === GoogleMapDraw.DRAWING_MODES.POLYGON)) {
+          return
         const tiltFactor = 0.1
         const currentTilt = this.gmap.getTilt()
         const adjustment = 1 + (currentTilt * tiltFactor)
@@ -58,6 +59,8 @@ class GoogleShape extends GoogleMapDraw {
         originalPath.forEach((coord) => {
           const adjustedLat = coord.lat() * adjustment
           const adjustedLng = coord.lng() * adjustment
+          console.log('----test')
+          console.log(adjustedLat, adjustedLng)
           /* eslint-disable no-undef */
           const adjustedCoord = new google.maps.LatLng(adjustedLat, adjustedLng)
           newPath.push(adjustedCoord)
@@ -122,13 +125,18 @@ class GoogleShape extends GoogleMapDraw {
 
     console.log('--area', polygon.area, currentRoofArea)
 
-    polygon.vertices.forEach((coord) => {
+    polygon.vertices.forEach((coord, index) => {
       // Draw markers
-      return new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: coord,
         map: this.gmap,
+        draggable: true,
         icon: PinSymbol('#58FF33')
         // icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      })
+
+      google.maps.event.addListener(marker, 'dragend', () => {
+        this.currentShape.getPath().setAt(index, marker.getPosition())
       })
     })
 

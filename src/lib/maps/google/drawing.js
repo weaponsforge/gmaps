@@ -35,7 +35,8 @@ class GoogleMapDraw extends GoogleMap {
     const {
       draw,
       allowModes,
-      circleOptions
+      circleOptions,
+      polygonOptions
     } = params
 
     this.tools = new google.maps.drawing.DrawingManager({
@@ -58,7 +59,11 @@ class GoogleMapDraw extends GoogleMap {
           clickable: false,
           editable: true,
           zIndex: 1
-        }
+        },
+      polygonOptions: polygonOptions ??
+       {
+        editable: true
+       }
     })
 
     this.tools.setMap(this.gmap)
