@@ -1,7 +1,9 @@
+import { MapUtils } from '../common'
+
 /**
  * Base class for managing LeafletJS web maps.
  */
-class BaseMap {
+class BaseMap extends MapUtils {
   map
   mapId
   config
@@ -15,6 +17,8 @@ class BaseMap {
    * @param {String} config.zoom - LeafletJS default map zoom.
    */
   constructor (config) {
+    super()
+
     const {
       mapId,
       lat,
