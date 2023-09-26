@@ -62,8 +62,13 @@ class GoogleShape extends GoogleMapDraw {
     })
   }
 
-  onPolygonDraw (overlay) {
-    console.log(overlay)
+  onPolygonDraw (polygon) {
+    console.log(polygon)
+    console.log('---path', polygon.getPath())
+    const area = google.maps.geometry.spherical.computeArea(polygon.getPath())
+    const currentRoofArea = area * 10.7639
+
+    console.log('--area', area, currentRoofArea)
   }
 }
 
