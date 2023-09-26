@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { MapDraw } from '../../lib/maps/drawing'
-import { fetchNearbyPlaces } from '../../lib/services'
+import { fetchNearbyPlaces } from './lib/services'
 
 /**
  * Sub class for testing fetching all home addresses inside a Circle.
@@ -42,9 +42,11 @@ class HomeAddressesWebMap extends MapDraw {
 
     this.fetchHomeAddresses = this.fetchHomeAddresses.bind(this)
     this.drawMarkers = this.drawMarkers.bind(this)
+    this.onPolygonDraw = this.onPolygonDraw.bind(this)
 
     this.bindMapEvents({
-      cbCircle: this.fetchHomeAddresses
+      cbCircle: this.fetchHomeAddresses,
+      cbPolygon: this.onPolygonDraw
     })
   }
 
@@ -144,6 +146,27 @@ class HomeAddressesWebMap extends MapDraw {
         position: item.geometry.location
       })
     })
+  }
+
+  onPolygonDraw (layer) {
+    console.log(layer)
+    const coords1 = layer.getLatLngs()[0].map(x => [x.lat, x.lng])
+
+    console.log('---vertices', layer.getLatLngs())
+    console.log('---vertices array', coords1)
+
+    const bbox = layer.getBounds()
+    console.log('---max bounds', bbox)
+
+    const bounds = {
+      left: bbox._southWest.lng,
+      bottom: bbox._southWest.lat,
+      right: bbox._northEast.lng,
+      top: bbox._northEast.lat
+    }
+
+    const osmURL = this.buildOSMQuery({ maxBounds: bounds })
+    console.log(osmURL)
   }
 }
 
