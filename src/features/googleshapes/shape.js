@@ -87,31 +87,43 @@ class GoogleShape extends GoogleMapDraw {
     })
 
     // Store unique home addresses (note: no country, state or zip code)
-    this.unique_addresses = buildUniqueAddresses(dataNearby)
-    console.log(this.unique_addresses)
+    // this.unique_addresses = buildUniqueAddresses(dataNearby)
+    // console.log(this.unique_addresses)
 
     console.log('---NEARBY SEARCH RESPONSE')
     console.log(dataNearby)
 
     // Fetch place details (note: contains detailed place information)
-    const details = await fetchPlaceDetails(dataNearby.map(x => x.place_id))
-    console.log('---FULL PLACE DETAILS')
-    console.log(details)
+    // const details = await fetchPlaceDetails(dataNearby.map(x => x.place_id))
+    // console.log('---FULL PLACE DETAILS')
+    // console.log(details)
+
+    
 
     /* eslint-disable no-undef */
     // Marker for each home address
     dataNearby.forEach((address) => {
-      return new google.maps.Marker({
-        position: address.geometry.location,
-        map: this.gmap
+      const addressText = [address.street, address.route, address.city, address.state, address.zip].join(' ');
+      const marker = new google.maps.Marker({
+        position: { lat: address.lat, lng: address.lng },
+        map: this.gmap,
+        title: addressText,
       })
-    })
 
-    // Center marker
-    return new google.maps.Marker({
-      position: center,
-      map: this.gmap,
-      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      // Display info window with address details on marker click
+      google.maps.event.addListener(marker, 'click', () => {
+        if(!address.street) {
+          console.log('missing?', address);
+        }
+        const infowindow = new google.maps.InfoWindow({
+          content: `<div id=${address.placeId}>
+            <h4>${addressText}
+            <h6>PLACE ID: ${address.placeId}</h6>
+            <h6>LONG-LAT: ${address.lat},${address.lng}</h6>
+          </div>`
+        });
+        infowindow.open({map: this.gmap,anchor: marker});
+      });
     })
   }
 

@@ -29,49 +29,29 @@ const createPlacesService = ({ location, gmapId }) => {
   * @returns {Promise} Promise that resolves into an Object[] array of home addresses.
   */
 const fetchNearbyPlaces = async ({ location, radius, service }) => {
-  let addresses = []
 
-  console.log('---fetching center', location)
-  console.log(`---radius: ${radius} meters`)
+  console.log("---fetching center", location);
+  console.log(`---radius: ${radius} meters`);
 
-  const request = {
-    location,
-    radius: Math.round(radius),
-    locationBias: {
-      radius,
-      center: {
-        lat: location.lat,
-        lng: location.lng
-      }
-    }
-  }
+  const loc = location.toString().substr(1, location.toString().length - 2).split(',');
+  console.log(loc);
+
+  const addressapi = `http://localhost:4000/addresses?radius=${Math.round(radius)}&lat=${loc[0]}&lng=${loc[1]}`;
 
   return await new Promise((resolve, reject) => {
-    service.nearbySearch(request, (results, status, pagination) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
-        reject(new Error(`Search status error: ${status}`))
-      } else {
-        setTimeout(() => {
-          addresses = [...addresses, ...results]
-          console.log(`---fetched ${results.length} sub-addresses`)
-
-          console.log(results.map(x => `${x.name} ${x.vicinity}\n`).reduce((list, x, index) => {
-            return `${list} ${x}`
-          }, ''))
-          console.log('\n\n')
-
-          if (pagination.hasNextPage) {
-            console.log('---fetching next page')
-            pagination.nextPage()
-          } else {
-            console.log(`---finished fetching ${addresses.length} addresses`)
-            resolve(addresses)
-          }
-        }, 3000)
-      }
-    })
-  })
-}
+    fetch(addressapi)
+      .then((response) => response.json())
+      .then((data) => {
+        // Process the retrieved OSM data here
+        console.log(data);
+        resolve(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        reject();
+      });
+  });
+};
 
 /**
  * Fetch the Google Place Details of a list of place_ids
