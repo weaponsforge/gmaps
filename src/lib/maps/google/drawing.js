@@ -62,7 +62,7 @@ class GoogleMapDraw extends GoogleMap {
         },
       polygonOptions: polygonOptions ??
        {
-        editable: true
+         editable: true
        }
     })
 

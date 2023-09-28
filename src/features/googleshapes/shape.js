@@ -1,8 +1,6 @@
 import { GoogleMapDraw } from '../../lib/maps/google'
 import {
-  fetchNearbyPlaces,
-  fetchPlaceDetails,
-  buildUniqueAddresses
+  fetchNearbyPlaces
 } from '../homeaddresses/lib/services'
 
 function PinSymbol (color) {
@@ -47,9 +45,12 @@ class GoogleShape extends GoogleMapDraw {
     this.gmap.addListener(this.MAP_EVENTS.TILT, () => {
       console.log('---TILT changed')
 
-      if ((this.currentShape !== null)
-        && (this.currentShapeType === GoogleMapDraw.DRAWING_MODES.POLYGON)) {
-          return
+      if (
+        (this.currentShape !== null) &&
+        (this.currentShapeType === GoogleMapDraw.DRAWING_MODES.POLYGON)
+      ) {
+        /* eslint-disable no-unreachable */
+        return
         const tiltFactor = 0.1
         const currentTilt = this.gmap.getTilt()
         const adjustment = 1 + (currentTilt * tiltFactor)
@@ -98,22 +99,20 @@ class GoogleShape extends GoogleMapDraw {
     // console.log('---FULL PLACE DETAILS')
     // console.log(details)
 
-    
-
     /* eslint-disable no-undef */
     // Marker for each home address
     dataNearby.forEach((address) => {
-      const addressText = [address.street, address.route, address.city, address.state, address.zip].join(' ');
+      const addressText = [address.street, address.route, address.city, address.state, address.zip].join(' ')
       const marker = new google.maps.Marker({
         position: { lat: address.lat, lng: address.lng },
         map: this.gmap,
-        title: addressText,
+        title: addressText
       })
 
       // Display info window with address details on marker click
       google.maps.event.addListener(marker, 'click', () => {
-        if(!address.street) {
-          console.log('missing?', address);
+        if (!address.street) {
+          console.log('missing?', address)
         }
         const infowindow = new google.maps.InfoWindow({
           content: `<div id=${address.placeId}>
@@ -121,9 +120,9 @@ class GoogleShape extends GoogleMapDraw {
             <h6>PLACE ID: ${address.placeId}</h6>
             <h6>LONG-LAT: ${address.lat},${address.lng}</h6>
           </div>`
-        });
-        infowindow.open({map: this.gmap,anchor: marker});
-      });
+        })
+        infowindow.open({ map: this.gmap, anchor: marker })
+      })
     })
   }
 

@@ -29,29 +29,28 @@ const createPlacesService = ({ location, gmapId }) => {
   * @returns {Promise} Promise that resolves into an Object[] array of home addresses.
   */
 const fetchNearbyPlaces = async ({ location, radius, service }) => {
+  console.log('---fetching center', location)
+  console.log(`---radius: ${radius} meters`)
 
-  console.log("---fetching center", location);
-  console.log(`---radius: ${radius} meters`);
+  const loc = location.toString().substr(1, location.toString().length - 2).split(',')
+  console.log(loc)
 
-  const loc = location.toString().substr(1, location.toString().length - 2).split(',');
-  console.log(loc);
-
-  const addressapi = `http://localhost:4000/addresses?radius=${Math.round(radius)}&lat=${loc[0]}&lng=${loc[1]}`;
+  const addressapi = `http://localhost:4000/addresses?radius=${Math.round(radius)}&lat=${loc[0]}&lng=${loc[1]}`
 
   return await new Promise((resolve, reject) => {
     fetch(addressapi)
       .then((response) => response.json())
       .then((data) => {
         // Process the retrieved OSM data here
-        console.log(data);
-        resolve(data);
+        console.log(data)
+        resolve(data)
       })
       .catch((error) => {
-        console.error("Error:", error);
-        reject();
-      });
-  });
-};
+        console.error('Error:', error)
+        reject(new Error(err.message))
+      })
+  })
+}
 
 /**
  * Fetch the Google Place Details of a list of place_ids
