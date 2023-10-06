@@ -1,5 +1,5 @@
 import GoogleMap from '../google/basic'
-import { LeafletMapDraw } from './drawing'
+import LeafletMapDraw from './drawing/leafletmapdraw'
 
 /**
  * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
