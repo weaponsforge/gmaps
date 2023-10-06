@@ -1,7 +1,8 @@
 import { LeafletGoogleMap } from '../../lib/maps/leaflet'
 
-import './assets/css/map-stylev9.9-lite.css'
-import './assets/css/styleMapv2.5-lite.css'
+// import './assets/css/map-stylev9.9-lite.css'
+// import './assets/css/styleMapv2.5-lite.css'
+import './assets/css/basic-leaflet.css'
 
 class CustomIcon extends LeafletGoogleMap {
   constructor (params) {
