@@ -47,7 +47,7 @@ const fetchNearbyPlaces = async ({ location, radius, service }) => {
       })
       .catch((error) => {
         console.error('Error:', error)
-        reject(new Error(err.message))
+        reject(new Error(error.message))
       })
   })
 }

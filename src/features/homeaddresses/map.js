@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MapDraw } from '../../lib/maps/drawing'
+import { LeafletMapBoxDraw } from '../../lib/maps/leaflet'
 import { fetchNearbyPlaces } from './lib/services'
 
 /**
@@ -17,7 +17,7 @@ import { fetchNearbyPlaces } from './lib/services'
  *
  * https://stackoverflow.com/questions/42180788/how-to-use-cors-to-implement-javascript-google-places-api-request/42182716#42182716
  */
-class HomeAddressesWebMap extends MapDraw {
+class HomeAddressesWebMap extends LeafletMapBoxDraw {
   gmap
   gmapId
   result
