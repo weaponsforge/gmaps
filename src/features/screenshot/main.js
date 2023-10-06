@@ -1,11 +1,7 @@
-import {
-  GoogleMap,
-  GoogleMapLeaflet
-} from '../../lib/maps/google'
+import { GoogleMap } from '../../lib/maps/google'
+import { LeafletGoogleMap } from '../../lib/maps/leaflet'
 
-window.mymap = null
-
-const screenshotGoogleMaps = () => {
+const app = () => {
   /* eslint-disable no-unused-vars */
   const centerCity = {
     lat: 47.6061389,
@@ -26,7 +22,7 @@ const screenshotGoogleMaps = () => {
   })
 
   // Google Map satellite basemap inside a LeafletJS web map
-  const mapLeaflet = new GoogleMapLeaflet({
+  const mapLeaflet = new LeafletGoogleMap({
     mapId: 'googlemap-leaflet',
     lat: center.lat,
     lng: center.lng
@@ -44,7 +40,7 @@ const screenshotGoogleMaps = () => {
 
   buttonBasicCanvas.addEventListener('click', (e) => {
     console.log(map)
-    map.screenshotCanvas()
+    map.screenshot()
   })
 
   buttonLeaflet.addEventListener('click', (e) => {
@@ -52,7 +48,10 @@ const screenshotGoogleMaps = () => {
     mapLeaflet.screenshot()
   })
 
-  return mapLeaflet
+  return {
+    gmap: map,
+    map: mapLeaflet
+  }
 }
 
-export default screenshotGoogleMaps
+export default app

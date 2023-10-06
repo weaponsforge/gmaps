@@ -48,7 +48,7 @@ The following dependecies are used for this project. Feel free to experiment usi
    | MAP_ZOOM_MAX        | Web map's maximum zoom (0 - 21)                                                                                                            |
    | MAP_BASEMAP_URL     | Base map URL                                                                                                                               |
    | MAP_BASEMAP_ATTRIB  | Bas map attribution text                                                                                                                   |
-   | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"WebMapBox.accessToken"` constructor parameter in the `WebMapBox` class if this variable has no value. |
+   | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"LeafletMapBox.accessToken"` constructor parameter in the `LeafletMapBox` class if this variable has no value. |
    | MAPBOX_STYLE_URL    | MapBox style URL (basemap style)                                                                                                           |
    | GOOGLE_API_KEY      | Google Maps API key                                                                                                                        |
 
@@ -68,6 +68,9 @@ The following dependecies are used for this project. Feel free to experiment usi
    - **feature/weaponsforge-25**<br>
       - Experiments comparing different types of base maps (MapBox satellite, 2D Google Map, 3D Google Map), Issue [#25](https://github.com/weaponsforge/gmaps/issues/25)
       - `git checkout feature/weaponsforge-25`
+   - **feature/weaponsforge-35**<br>
+      - Experiments testing precicion Leaflet.draw Polygon Pins (vertex) placements, Issue [#35](https://github.com/weaponsforge/gmaps/issues/35)
+      - `git checkout feature/weaponsforge-35`
 
 ## Usage
 

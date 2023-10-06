@@ -1,3 +1,2 @@
-import screenshotGoogleMaps from './features/screenshot/main'
-
-screenshotGoogleMaps()
+import app from './features/screenshot/main'
+window.mymap = app()

@@ -1,11 +1,11 @@
-import { BaseMap } from '../basemap'
+import LeafletMap from './basic/basic'
 
 /**
  * Sub class for rendering web maps with the Leaflet MapBox GL JS plugin.
  */
-class WebMapBox extends BaseMap {
+class LeafletMapBox extends LeafletMap {
   /**
-   * WebMapBox constructor parameters
+   * LeafletMapBox constructor parameters
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) stylae URL.
    * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
@@ -32,4 +32,4 @@ class WebMapBox extends BaseMap {
   }
 }
 
-export default WebMapBox
+export default LeafletMapBox
