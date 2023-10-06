@@ -35,6 +35,10 @@ class MapUtils {
       return
     }
 
+    if (typeof html2canvas === 'undefined') {
+      throw new Error('Initialize html2canvas before taking a screenshot')
+    }
+
     if (callback !== undefined) {
       callback()
     }

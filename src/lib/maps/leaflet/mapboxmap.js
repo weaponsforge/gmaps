@@ -1,4 +1,4 @@
-import { LeafletMap } from './basic'
+import LeafletMap from './basic/basic'
 
 /**
  * Sub class for rendering web maps with the Leaflet MapBox GL JS plugin.
