@@ -11,6 +11,7 @@
 
 /* Leaflet Draw customization */
 #map, #map-line > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane div {
+  /** NOTE: These CSS forces Leaflet icons to max 12 x 12px */
   max-width: 12px;
   max-height: 12px;
   margin-left: -6px !important;

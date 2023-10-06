@@ -1,0 +1,13 @@
+#map, #map-line {
+  position: relative;
+  min-height: 100%;
+  width: 100%;	
+  z-index: 1;
+  float: top;
+  height: calc(100vh - 80px);
+  width: 100vw;
+}
+
+.custom-marker {
+  background-color: yellow;
+}
