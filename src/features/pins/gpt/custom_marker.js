@@ -2,7 +2,7 @@
 // Source: GPT 3.5
 
 /* eslint-disable no-undef */
-const customMarker = L.Path.extend({
+const CustomMarker = L.Path.extend({
   initialize: function (latlng, options) {
     L.Path.prototype.initialize.call(this, options)
     this._latlng = L.latLng(latlng)
@@ -63,7 +63,7 @@ const customMarker = L.Path.extend({
   }
 })
 
-export default customMarker
+export default CustomMarker
 
 // Create a marker using the custom marker class
-// var marker = new customMarker([latitude, longitude], { iconUrl: 'path_to_custom_icon.png' }).addTo(map);
+// var marker = new CustomMarker([latitude, longitude], { iconUrl: 'path_to_custom_icon.png' }).addTo(map);
