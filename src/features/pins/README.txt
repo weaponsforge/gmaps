@@ -10,3 +10,6 @@ https://github.com/JamesLMilner/terra-draw
 Test Leaflet components for overrides:
 https://github.com/Leaflet/Leaflet/blob/main/src/layer/marker/Icon.js
 https://github.com/Leaflet/Leaflet/blob/main/src/layer/marker/Marker.js
+
+Full Leaflet.draw demo
+https://leaflet.github.io/Leaflet.draw/docs/examples/full.html
