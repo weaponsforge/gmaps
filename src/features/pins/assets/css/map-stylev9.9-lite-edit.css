@@ -1,0 +1,41 @@
+/* Map */
+#map, #map-line {
+  position: relative;
+  min-height: 100%;
+  width: 100%;	
+  z-index: 1;
+  float: top;
+  height: calc(100vh - 80px);
+  width: 100vw;
+}
+
+/* Leaflet Draw customization */
+#map, #map-line > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane div {
+  /** NOTE: These CSS forces Leaflet icons to max 12 x 3px */
+  max-width: 3px;
+  max-height: 3px;
+  margin-left: -6px !important;
+  margin-top: -6px !important;
+  border-radius: 50%;	
+}
+
+/* Ensure responsive */
+@media only screen and (min-resolution: 117dpi) and (max-resolution: 119dpi), only screen and (min-resolution: 131dpi) and (max-resolution: 133dpi), only screen and (min-resolution: 145dpi) and (max-resolution: 154dpi), only screen and (min-resolution: 162dpi) and (max-resolution: 164dpi), only screen and (min-resolution: 169dpi) {
+#map, #map-line > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane > div:nth-child(2){
+      background-color: red;	
+      max-width: 3px;
+      max-height: 3px;
+      margin-left: -6px !important;
+      margin-top: -6px !important;
+  }
+}
+
+@media only screen and (min-resolution: 165dpi) and (max-resolution: 168dpi), only screen and (min-resolution: 155dpi) and (max-resolution: 160dpi), only screen and (min-resolution: 134dpi) and (max-resolution: 144dpi), only screen and (min-resolution: 120dpi) and (max-resolution: 130dpi), only screen and (max-resolution: 116dpi) {
+#map, #map-line > div.leaflet-pane.leaflet-map-pane > div.leaflet-pane.leaflet-marker-pane > div:nth-child(2):hover {
+      background-color: red;	
+      max-width: 3px;
+      max-height: 3px;
+      margin-left: -7px !important;
+      margin-top: -7px !important;
+  }
+}

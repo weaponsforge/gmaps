@@ -1,15 +1,18 @@
-import { LeafletGoogleMap } from '../../lib/maps/leaflet'
+import { LeafletGoogleMapDraw } from '../../lib/maps/leaflet'
 
-// import './assets/css/map-stylev9.9-lite.css'
+import './assets/css/map-stylev9.9-lite-edit.css'
 // import './assets/css/styleMapv2.5-lite.css'
 import './assets/css/basic-leaflet.css'
 
-class CustomIcon extends LeafletGoogleMap {
+class CustomIcon extends LeafletGoogleMapDraw {
   // Leaflet custom icon https://leafletjs.com/examples/custom-icons/
   icon
 
   // Leaflet divIcon https://leafletjs.com/reference.html#divicon
   divIcon
+
+  // Custom Leaflet.draw polygon handler
+  polygonDrawer
 
   constructor (params) {
     super(params)
@@ -18,6 +21,7 @@ class CustomIcon extends LeafletGoogleMap {
     this.bindMapClick()
     this.initIcon()
     this.initDivIcon()
+    // this.initPolygonDrawer()
 
     const center = this.map.getCenter()
     const marker = L.marker(center, { icon: this.icon }).addTo(this.map)
@@ -44,8 +48,13 @@ class CustomIcon extends LeafletGoogleMap {
     })
   }
 
-  bindMapClick () {
-
+  initPolygonDrawer () {
+    /* eslint-disable no-undef */
+    this.polygonDrawer = new L.Draw.Polygon(this.map)
+    L.drawLocal.draw.handlers.polygon.tooltip.start = 'Click to add points at the corners of your roof'
+    L.drawLocal.draw.handlers.polygon.tooltip.cont = 'Continue adding points'
+    L.drawLocal.draw.handlers.polygon.tooltip.end = 'Click on the first point to finish drawing'
+    this.polygonDrawer.enable()
   }
 
   /**
@@ -74,7 +83,18 @@ class CustomIcon extends LeafletGoogleMap {
 
 const app = () => {
   return new CustomIcon({
-    mapId: 'map-line'
+    mapId: 'map-line',
+    drawOptions: {
+      position: 'topleft',
+      draw: {
+        polyline: false,
+        polygon: true,
+        marker: false,
+        circle: false,
+        rectangle: false,
+        circlemarker: false
+      }
+    }
   })
 }
 
