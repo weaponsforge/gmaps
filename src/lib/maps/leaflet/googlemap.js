@@ -1,6 +1,5 @@
 import GoogleMap from '../google/basic'
 import { LeafletMapDraw } from './drawing'
-import { screenshotCanvas } from './utils'
 
 /**
  * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
@@ -32,7 +31,7 @@ class LeafletGoogleMap extends LeafletMapDraw {
    * Uses the html2canvas library to capture screenshot in a canvas.
    */
   screenshot () {
-    screenshotCanvas(this.mapId)
+    super.screenshot(this.mapId)
   }
 }
 
