@@ -22,6 +22,42 @@ class MapUtils {
 
     return osmURL
   }
+
+  /**
+   * Captures the screenshot of a DOM element using the html2canvas lib.
+   * @param {String} domId - HTML DOM element ID
+   * @param {Function} callback - Callback method before taking the screenshot
+   */
+  screenshot (domId, callback) {
+    const mapContainer = document.getElementById(domId)
+
+    if (mapContainer === undefined) {
+      return
+    }
+
+    if (typeof html2canvas === 'undefined') {
+      throw new Error('Initialize html2canvas before taking a screenshot')
+    }
+
+    if (callback !== undefined) {
+      callback()
+    }
+
+    /* eslint-disable no-undef */
+    html2canvas(mapContainer, { useCORS: true }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        const fileURL = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = fileURL
+        link.setAttribute('download', 'file.png')
+        document.body.appendChild(link)
+
+        link.click()
+        document.body.removeChild(link)
+      })
+    })
+  }
 }
 
 export default MapUtils
