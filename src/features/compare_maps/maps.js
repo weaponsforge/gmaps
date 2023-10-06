@@ -1,16 +1,17 @@
-import { MapDraw } from '../../lib/maps/drawing'
-
 import {
-  GoogleMapLeaflet,
-  GoogleMapDraw
-} from '../../lib/maps/google'
+  LeafletGoogleMap,
+  LeafletMapBoxDraw
+} from '../../lib/maps/leaflet'
+
+import { GoogleMapDraw } from '../../lib/maps/google'
 
 const main = () => {
-  const map = new MapDraw({
+  const map = new LeafletMapBoxDraw({
     mapId: 'map_mapbox'
+
   })
 
-  const gmap2d = new GoogleMapLeaflet({
+  const gmap2d = new LeafletGoogleMap({
     mapId: 'map_google_2d'
   })
 

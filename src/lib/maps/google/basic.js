@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { screenshotCanvas } from './utils'
 import { MapUtils } from '../common'
 
 /**
@@ -99,7 +98,7 @@ class GoogleMap extends MapUtils {
    * Takes a screenshot of the current map area in view.
    * Uses the Google Static Maps API.
    */
-  async screenshot () {
+  async screenshotStaticMap () {
     try {
       const staticMapURL = 'https://maps.googleapis.com/maps/api/staticmap'
 
@@ -147,8 +146,8 @@ class GoogleMap extends MapUtils {
     }
   }
 
-  screenshotCanvas () {
-    screenshotCanvas(this.mapId)
+  screenshot () {
+    super.screenshot(this.mapId)
   }
 }
 

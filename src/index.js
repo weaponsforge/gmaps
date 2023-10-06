@@ -10,13 +10,13 @@ import 'mapbox-gl-leaflet'
 
 // Map App
 import './map/map.css'
-// import WebMapBox from './map-mapbox/map-mapbox'
-import MapDraw from './map-draw/map-draw'
+// import LeafletMapBox from './map-mapbox/map-mapbox'
+import LeafletMapBoxDraw from './map-draw/map-draw'
 
 // App entry point
 
 // LeafletJS-MapBox web map (using mapbox plugin)
-const map = new MapDraw({
+const map = new LeafletMapBoxDraw({
   mapId: 'map',
   baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
 })
@@ -24,10 +24,8 @@ const map = new MapDraw({
 
 // Global
 import './app.css'
-import './lib/maps/basemap/basemap.css'
+import './lib/maps/leaflet/basic/basic.css'
 import './features/compare_maps/main.css'
-// import './lib/maps/google/main.css'
 import './app.js'
-// export default map
 
 console.log('App started.')
