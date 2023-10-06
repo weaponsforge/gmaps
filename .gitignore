@@ -2,6 +2,7 @@ node_modules/
 dist/
 __pins/
 src/lib/plugins/*.js
+src/features/pins/assets/map/*.js
 .firebase
 *.env
 *.zip
