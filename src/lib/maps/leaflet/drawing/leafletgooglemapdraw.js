@@ -1,11 +1,12 @@
-import LeafletWebMap from '../leafletwebmap'
+import LeafletGoogleMap from '../googlemap'
 import { leafletDrawOptions } from './constants.js'
 
 /**
- * Sub class that allows drawing Polygons and Circles on a regular LeafletJS web map that uses L.tileLayer().
- * Uses the Leaflet.Draw plugin for drawing.
+ * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
+ * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
+ * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class LeafletMapDraw extends LeafletWebMap {
+class LeafletGoogleMapDraw extends LeafletGoogleMap {
   editableLayers = null
   drawControl = null
   showCenter = false
@@ -16,7 +17,7 @@ class LeafletMapDraw extends LeafletWebMap {
   }
 
   /**
-   * LeafletMapDraw constructor parameters.
+   * LeafletGoogleMapDraw constructor parameters.
    * All constructor parameters to the LeafletMapBox class also apply.
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
@@ -70,7 +71,7 @@ class LeafletMapDraw extends LeafletWebMap {
     this.map.on(L.Draw.Event.CREATED, async function (e) {
       const { layer, layerType: type } = e
 
-      if (type === LeafletMapDraw.SHAPE_TYPES.CIRCLE) {
+      if (type === LeafletGoogleMapDraw.SHAPE_TYPES.CIRCLE) {
         console.log('is circle')
 
         // Circle radius
@@ -106,7 +107,7 @@ class LeafletMapDraw extends LeafletWebMap {
           color: 'red'
         }).addTo(that.map)
         */
-      } else if (type === LeafletMapDraw.SHAPE_TYPES.POLYGON) {
+      } else if (type === LeafletGoogleMapDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
 
         if (callback.cbPolygon !== undefined) {
@@ -117,4 +118,4 @@ class LeafletMapDraw extends LeafletWebMap {
   }
 }
 
-export default LeafletMapDraw
+export default LeafletGoogleMapDraw

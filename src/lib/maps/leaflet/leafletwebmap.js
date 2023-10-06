@@ -1,7 +1,7 @@
 import LeafletMap from './basic/basic'
 
 /**
- * Sub class for rendering web maps with Leaflet.TileLayer.
+ * Sub class for rendering Leaflet web maps with Leaflet.TileLayer.
  */
 class LeafletWebMap extends LeafletMap {
   /**

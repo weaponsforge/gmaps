@@ -1,12 +1,11 @@
 import GoogleMap from '../google/basic'
-import LeafletMapDraw from './drawing/leafletmapdraw'
+import LeafletMap from './basic/basic'
 
 /**
  * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
- * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class LeafletGoogleMap extends LeafletMapDraw {
+class LeafletGoogleMap extends LeafletMap {
   /**
    * LeafletGoogleMap constructor parameters.
    * Initializes and renders a Google Map using LeafletJS with drawing controls.

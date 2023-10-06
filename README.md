@@ -68,6 +68,9 @@ The following dependecies are used for this project. Feel free to experiment usi
    - **feature/weaponsforge-25**<br>
       - Experiments comparing different types of base maps (MapBox satellite, 2D Google Map, 3D Google Map), Issue [#25](https://github.com/weaponsforge/gmaps/issues/25)
       - `git checkout feature/weaponsforge-25`
+   - **feature/weaponsforge-35**<br>
+      - Experiments testing precicion Leaflet.draw Polygon Pins (vertex) placements, Issue [#35](https://github.com/weaponsforge/gmaps/issues/35)
+      - `git checkout feature/weaponsforge-35`
 
 ## Usage
 

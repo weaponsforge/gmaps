@@ -11,12 +11,12 @@ import 'mapbox-gl-leaflet'
 // Map App
 import './map/map.css'
 // import LeafletMapBox from './map-mapbox/map-mapbox'
-import LeafletMapDraw from './map-draw/map-draw'
+import LeafletMapBoxDraw from './map-draw/map-draw'
 
 // App entry point
 
 // LeafletJS-MapBox web map (using mapbox plugin)
-const map = new LeafletMapDraw({
+const map = new LeafletMapBoxDraw({
   mapId: 'map',
   baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
 })
