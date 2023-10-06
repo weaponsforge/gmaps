@@ -1,5 +1,9 @@
 import Polygons from './polygons'
 import MarkersPolygon from './markers'
+import { LeafletGoogleMapDraw } from '../../lib/maps/leaflet'
+
+import './assets/css/map-stylev9.9-lite.css'
+import './assets/css/styleMapv2.5-lite.css'
 
 const DRAW_TYPE = {
   POLYGONS: 'polygons',
@@ -31,13 +35,17 @@ const app = (type = 'polygons') => {
         }
       }
     })
-  } else {
+  } else if (type === DRAW_TYPE.MARKERS) {
     console.log('--drawing custom polygon using leaflet markers/polygons')
 
     return new MarkersPolygon({
       lat: 42.73766129548526,
       lng: -73.76168500632049,
       zoom: 21,
+      mapId: 'map-line'
+    })
+  } else {
+    return new LeafletGoogleMapDraw({
       mapId: 'map-line'
     })
   }
