@@ -1,13 +1,3 @@
-import HomeAddressesWebMap from './features/homeaddresses/map'
+import app from './features/homeaddresses/app'
 
-window.mymap = null
-
-const start = () => {
-  window.mymap = new HomeAddressesWebMap({
-    mapId: 'map',
-    gmapId: 'gmap',
-    baseMapUrl: 'mapbox://styles/mapbox/satellite-v9'
-  })
-}
-
-start()
+window.mymap = app()
