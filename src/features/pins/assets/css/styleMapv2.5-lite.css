@@ -1,0 +1,38 @@
+#map, #map-line
+  > div.leaflet-pane.leaflet-map-pane
+  > div.leaflet-pane.leaflet-marker-pane
+  div.leaflet-editing-icon {
+  border: none;
+  max-width: 20px !important;
+  max-height: 33px !important;
+  height: 33px !important;
+  border-radius: 0 !important;
+  margin-top: -33px !important;
+  margin-left: -12px !important;
+  background: url("../img/tool-market.png") no-repeat;
+}
+#map, #map-line
+  > div.leaflet-pane.leaflet-map-pane
+  > div.leaflet-pane.leaflet-marker-pane
+  > div.leaflet-editing-icon:nth-child(2):hover {
+  background: url("../img/tool-market.png") no-repeat;
+  margin-top: -33px !important;
+  margin-left: -12px !important;
+}
+.leaflet-draw-section .leaflet-draw-edit-edit {
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  background-size: 16px !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-image: url('../img/r-icon-01.svg');
+}
+
+.leaflet-draw-section .leaflet-draw-edit-remove {
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  background-size: 16px !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-image: url('../img/r-icon-02.svg');
+}

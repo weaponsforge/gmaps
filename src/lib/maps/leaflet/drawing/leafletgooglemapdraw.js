@@ -13,7 +13,8 @@ class LeafletGoogleMapDraw extends LeafletGoogleMap {
 
   static SHAPE_TYPES = {
     CIRCLE: 'circle',
-    POLYGON: 'polygon'
+    POLYGON: 'polygon',
+    POLYLINE: 'polyline'
   }
 
   /**
@@ -26,6 +27,7 @@ class LeafletGoogleMapDraw extends LeafletGoogleMap {
    * @param {Bool} config.showCenter - Flag to draw a Marker in the drawn shape's center. Defaults to "false".
    * @param {Function} config.callbackcircle - (Optional) Callback method after drawing a Circle.
    * @param {Function} config.callbackpolygon - (Optional) Callback method after drawing a Polygon.
+   * @param {Object} config.drawOptions - (Optional) Leaflet.draw options
    */
   constructor (config) {
     super(config)
@@ -37,7 +39,7 @@ class LeafletGoogleMapDraw extends LeafletGoogleMap {
     this.showCenter = config?.showCenter ?? false
 
     // Create a draw control
-    this.initControl()
+    this.initControl(config?.drawOptions)
 
     this.bindMapEvents({
       cbCircle: config?.callbackcircle ?? undefined,
@@ -47,10 +49,24 @@ class LeafletGoogleMapDraw extends LeafletGoogleMap {
 
   /**
    * Initialises the Leaflet.Draw plugin drawing controls on the map.
+   * @param {Object} options - Leaflet.draw options without the "edit" key.
    */
-  initControl () {
-    // Create a draw control
-    this.drawControl = new L.Control.Draw(leafletDrawOptions)
+  initControl (options) {
+    const drawOptions = (options)
+      ? { ...options }
+      : leafletDrawOptions
+
+    if (options !== undefined) {
+      drawOptions.edit = {
+        featureGroup: this.editableLayers,
+        remove: true
+      }
+    }
+
+    console.log(drawOptions)
+
+    this.drawControl = new L.Control.Draw(drawOptions)
+
     this.map.addControl(this.drawControl, {
       center: {
         lat: process.env.MAP_LAT,
@@ -110,9 +126,21 @@ class LeafletGoogleMapDraw extends LeafletGoogleMap {
       } else if (type === LeafletGoogleMapDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
 
+        that.editableLayers.addLayer(layer)
+        layer.bringToBack()
+
         if (callback.cbPolygon !== undefined) {
           callback.cbPolygon(layer)
         }
+      } else if (type === LeafletGoogleMapDraw.SHAPE_TYPES.POLYLINE) {
+        console.log('is polyline')
+        that.editableLayers.addLayer(layer)
+        layer.bringToBack()
+
+        layer.on('editable:vertex:click', (e) => {
+          const clickedVertex = e.vertex
+          console.log('---vertex: ', clickedVertex)
+        })
       }
     })
   }
