@@ -1,5 +1,5 @@
-import GoogleMap from './basic'
-import { MapDraw } from '../drawing'
+import GoogleMap from '../google/basic'
+import { LeafletMapDraw } from './drawing'
 import { screenshotCanvas } from './utils'
 
 /**
@@ -7,9 +7,9 @@ import { screenshotCanvas } from './utils'
  * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMapLeaflet extends MapDraw {
+class LeafletGoogleMap extends LeafletMapDraw {
   /**
-   * GoogleMapLeaflet constructor parameters.
+   * LeafletGoogleMap constructor parameters.
    * Initializes and renders a Google Map using LeafletJS with drawing controls.
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the map.
@@ -36,4 +36,4 @@ class GoogleMapLeaflet extends MapDraw {
   }
 }
 
-export default GoogleMapLeaflet
+export default LeafletGoogleMap

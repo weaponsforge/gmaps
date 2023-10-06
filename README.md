@@ -48,7 +48,7 @@ The following dependecies are used for this project. Feel free to experiment usi
    | MAP_ZOOM_MAX        | Web map's maximum zoom (0 - 21)                                                                                                            |
    | MAP_BASEMAP_URL     | Base map URL                                                                                                                               |
    | MAP_BASEMAP_ATTRIB  | Bas map attribution text                                                                                                                   |
-   | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"WebMapBox.accessToken"` constructor parameter in the `WebMapBox` class if this variable has no value. |
+   | MAPBOX_ACCESS_TOKEN | MapBox access token.<br> Provide a `"LeafletMapBox.accessToken"` constructor parameter in the `LeafletMapBox` class if this variable has no value. |
    | MAPBOX_STYLE_URL    | MapBox style URL (basemap style)                                                                                                           |
    | GOOGLE_API_KEY      | Google Maps API key                                                                                                                        |
 
