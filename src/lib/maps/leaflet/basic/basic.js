@@ -1,13 +1,15 @@
+import { MapUtils } from '../../common'
+
 /**
  * Base class for managing LeafletJS web maps.
  */
-class BaseMap {
+class LeafletMap extends MapUtils {
   map
   mapId
   config
 
   /**
-   * BaseMap constructor parameters
+   * LeafletMap constructor parameters
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the map.
    * @param {String} config.lat - Latitude.
@@ -15,6 +17,8 @@ class BaseMap {
    * @param {String} config.zoom - LeafletJS default map zoom.
    */
   constructor (config) {
+    super()
+
     const {
       mapId,
       lat,
@@ -47,4 +51,4 @@ class BaseMap {
   }
 }
 
-export default BaseMap
+export default LeafletMap

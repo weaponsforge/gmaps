@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { MapDraw } from '../../lib/maps/drawing'
+import { LeafletMapBoxDraw } from '../../lib/maps/leaflet'
+import { fetchNearbyPlaces } from './lib/services'
 
 /**
  * Sub class for testing fetching all home addresses inside a Circle.
- * Requires the Google Maps API library.
+ * Draws a 2D Google Map inside using LeafletJS and requires the Google Maps API library.
  *
  * PLACES LIBRARY
  * https://developers.google.com/maps/documentation/javascript/places#place_search_requests
@@ -16,11 +17,13 @@ import { MapDraw } from '../../lib/maps/drawing'
  *
  * https://stackoverflow.com/questions/42180788/how-to-use-cors-to-implement-javascript-google-places-api-request/42182716#42182716
  */
-class HomeAddressesWebMap extends MapDraw {
+class HomeAddressesWebMap extends LeafletMapBoxDraw {
   gmap
   gmapId
   result
+  addresses = []
   pagination
+  service
 
   /**
    * HomeAddressesWebMap constructor parameters
@@ -37,12 +40,13 @@ class HomeAddressesWebMap extends MapDraw {
     this.gmapId = config?.gmapId ?? '-'
     this.initGoogleMaps(this.gmapId)
 
-    this.fetchCallback = this.fetchCallback.bind(this)
-    this.fetchNearbyPlaces = this.fetchNearbyPlaces.bind(this)
-    this.createPlacesService = this.createPlacesService.bind(this)
+    this.fetchHomeAddresses = this.fetchHomeAddresses.bind(this)
+    this.drawMarkers = this.drawMarkers.bind(this)
+    this.onPolygonDraw = this.onPolygonDraw.bind(this)
 
     this.bindMapEvents({
-      cbCircle: this.fetchNearbyPlaces
+      cbCircle: this.fetchHomeAddresses,
+      cbPolygon: this.onPolygonDraw
     })
   }
 
@@ -60,6 +64,9 @@ class HomeAddressesWebMap extends MapDraw {
       mapTypeId: 'satellite',
       zoom: 18
     })
+
+    // Initialize a Google Places service
+    this.service = new google.maps.places.PlacesService(this.gmap)
   }
 
   /**
@@ -92,65 +99,32 @@ class HomeAddressesWebMap extends MapDraw {
   }
 
   /**
-   * Creates a Google Places Service object
-   * @param {Object} location - Object containing latitude and longitude i.e., { lat, lng }
-   * @returns
-   */
-  createPlacesService (location) {
-    const point = new google.maps.LatLng(location.lat, location.lng)
-
-    this.gmap = new google.maps.Map(document.getElementById(this.gmapId), {
-      center: point,
-      zoom: 19,
-      mapTypeId: 'satellite'
-    })
-
-    const service = new google.maps.places.PlacesService(this.gmap)
-    return service
-  }
-
-  /**
    * Fetch home and establishments addresses using the Google Places NearbySearch API (for the frontend).
    * It uses the Maps JavaScript API (initializting a google map) for compatibility running on the frontend.
    * @typedef {Object} params
    * @param {Object} params.location - Object containing latitude and longitude i.e., { lat, lng }
    * @param {Object} params.radius - Circle radius in miles from the center "location"
    */
-  async fetchNearbyPlaces ({ location, radius, callback }) {
+  async fetchHomeAddresses ({ location, radius, callback }) {
+    this.addresses = []
+
     console.log('---fetching center', location)
-    console.log('---radius', radius)
+    console.log(`---radius: ${radius} meters`)
 
-    // Create a Places service at the given map center
-    const service = this.createPlacesService(location)
-
-    const request = {
-      location,
-      radius: Math.round(radius),
-      locationBias: {
-        radius,
-        center: {
-          lat: location.lat,
-          lng: location.lng
-        }
-      }
+    try {
+      const data = await fetchNearbyPlaces({ location, radius, service: this.service })
+      this.addresses = [...data]
+      this.drawMarkers(data)
+    } catch (err) {
+      throw new Error(err.message)
     }
-
-    service.nearbySearch(request, (results, status, pagination) => {
-      if (status !== google.maps.places.PlacesServiceStatus.OK || !results) {
-        console.log(`Search status error: ${status}`, results)
-      } else {
-        console.log(results)
-        this.fetchCallback(results, status, pagination)
-      }
-    })
   }
 
-  fetchCallback (results, status, pagination) {
+  drawMarkers (results) {
     const that = this
     that.result = results
 
-    console.log('---fetch results', status)
-    console.log('---pagination', pagination)
+    console.log('---fetch results')
     console.log(results)
     console.log(results.map(x => `${x.vicinity}\n`).reduce((list, x, index) => {
       return `${list} ${x}`
@@ -172,6 +146,27 @@ class HomeAddressesWebMap extends MapDraw {
         position: item.geometry.location
       })
     })
+  }
+
+  onPolygonDraw (layer) {
+    console.log(layer)
+    const coords1 = layer.getLatLngs()[0].map(x => [x.lat, x.lng])
+
+    console.log('---vertices', layer.getLatLngs())
+    console.log('---vertices array', coords1)
+
+    const bbox = layer.getBounds()
+    console.log('---max bounds', bbox)
+
+    const bounds = {
+      left: bbox._southWest.lng,
+      bottom: bbox._southWest.lat,
+      right: bbox._northEast.lng,
+      top: bbox._northEast.lat
+    }
+
+    const osmURL = this.buildOSMQuery({ maxBounds: bounds })
+    console.log(osmURL)
   }
 }
 

@@ -1,11 +1,11 @@
-import BaseMap from '../basemap'
+import LeafletMap from './basic/basic'
 
 /**
- * Sub class for rendering web maps with Leaflet.TileLayer.
+ * Sub class for rendering Leaflet web maps with Leaflet.TileLayer.
  */
-class WebMapLeaflet extends BaseMap {
+class LeafletWebMap extends LeafletMap {
   /**
-   * WebMapLeaflet constructor parameters
+   * LeafletWebMap constructor parameters
    * @typedef {Object} config
    * @param {String} config.baseMapUrl - Basemap URL.
    * @param {String} config.baseMapAttrib - Basemap attribution text.
@@ -31,4 +31,4 @@ class WebMapLeaflet extends BaseMap {
   }
 }
 
-export default WebMapLeaflet
+export default LeafletWebMap

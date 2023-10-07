@@ -1,15 +1,16 @@
 import axios from 'axios'
-import { screenshotCanvas } from './utils'
+import { MapUtils } from '../common'
 
 /**
  * Base class for rendering web maps using the Google Maps API (directly).
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMap {
+class GoogleMap extends MapUtils {
   gmap
   mapId
   mapType
   key
+  service
 
   static GOOGLE_MAP_TYPES = {
     SATELLITE: 'satellite',
@@ -45,6 +46,8 @@ class GoogleMap {
    *      ['zoomControl', 'mapTypeControl', 'scaleControl', 'streetViewControl', 'rotateControl', 'fullscreenControl']
    */
   constructor (config) {
+    super()
+
     const {
       mapId,
       mapType,
@@ -86,13 +89,16 @@ class GoogleMap {
 
     // Initialize a google map
     this.gmap = new google.maps.Map(document.getElementById(mapId), mapConfig)
+
+    // Initialize a google places service
+    this.service = new google.maps.places.PlacesService(this.gmap)
   }
 
   /**
    * Takes a screenshot of the current map area in view.
    * Uses the Google Static Maps API.
    */
-  async screenshot () {
+  async screenshotStaticMap () {
     try {
       const staticMapURL = 'https://maps.googleapis.com/maps/api/staticmap'
 
@@ -140,8 +146,8 @@ class GoogleMap {
     }
   }
 
-  screenshotCanvas () {
-    screenshotCanvas(this.mapId)
+  screenshot () {
+    super.screenshot(this.mapId)
   }
 }
 

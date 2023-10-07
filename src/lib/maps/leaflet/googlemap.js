@@ -1,15 +1,13 @@
-import GoogleMap from './basic'
-import { MapDraw } from '../drawing'
-import { screenshotCanvas } from './utils'
+import GoogleMap from '../google/basic'
+import LeafletMap from './basic/basic'
 
 /**
- * Sub class for rendering a Google Map insidea a Leaflet web map using the LeafletJS GoogleMutant plugin.
- * This web map have Leaflet.Draw Circle and Polygon drawing tools and screen capture.
+ * Sub class for rendering a Google Map inside a Leaflet web map using the LeafletJS GoogleMutant plugin.
  * Requires a properly-configured Google Maps API script via CDN or npm install.
  */
-class GoogleMapLeaflet extends MapDraw {
+class LeafletGoogleMap extends LeafletMap {
   /**
-   * GoogleMapLeaflet constructor parameters.
+   * LeafletGoogleMap constructor parameters.
    * Initializes and renders a Google Map using LeafletJS with drawing controls.
    * @typedef {Object} config
    * @param {String} config.mapId - HTML DOM id where to render the map.
@@ -32,8 +30,8 @@ class GoogleMapLeaflet extends MapDraw {
    * Uses the html2canvas library to capture screenshot in a canvas.
    */
   screenshot () {
-    screenshotCanvas(this.mapId)
+    super.screenshot(this.mapId)
   }
 }
 
-export default GoogleMapLeaflet
+export default LeafletGoogleMap

@@ -1,11 +1,11 @@
-import { WebMapBox } from '../mapbox'
+import LeafletMapBox from '../mapboxmap'
 import { leafletDrawOptions } from './constants.js'
 
 /**
  * Sub class that allows drawing Polygons and Circles on a LeafletJS web map that uses the MapBox GL JS plugin.
  * Uses the Leaflet.Draw plugin for drawing.
  */
-class MapDraw extends WebMapBox {
+class LeafletMapBoxDraw extends LeafletMapBox {
   editableLayers = null
   drawControl = null
   showCenter = false
@@ -16,8 +16,8 @@ class MapDraw extends WebMapBox {
   }
 
   /**
-   * MapDraw constructor parameters.
-   * All constructor parameters to the WebMapBox class also apply.
+   * LeafletMapBoxDraw constructor parameters.
+   * All constructor parameters to the LeafletMapBox class also apply.
    * @typedef {Object} config
    * @param {String} config.styleUrl - MapBox (basemap) style URL.
    * @param {String} config.accessToken - MapBox access token. This parameter is optional if MAPBOX_ACCESS_TOKEN env variable is defined.
@@ -70,7 +70,7 @@ class MapDraw extends WebMapBox {
     this.map.on(L.Draw.Event.CREATED, async function (e) {
       const { layer, layerType: type } = e
 
-      if (type === MapDraw.SHAPE_TYPES.CIRCLE) {
+      if (type === LeafletMapBoxDraw.SHAPE_TYPES.CIRCLE) {
         console.log('is circle')
 
         // Circle radius
@@ -106,15 +106,15 @@ class MapDraw extends WebMapBox {
           color: 'red'
         }).addTo(that.map)
         */
-      } else if (type === MapDraw.SHAPE_TYPES.POLYGON) {
+      } else if (type === LeafletMapBoxDraw.SHAPE_TYPES.POLYGON) {
         console.log('is polygon')
 
         if (callback.cbPolygon !== undefined) {
-          callback.cbPolygon()
+          callback.cbPolygon(layer)
         }
       }
     })
   }
 }
 
-export default MapDraw
+export default LeafletMapBoxDraw
